@@ -6,7 +6,7 @@ import Radium from 'radium'
 
     return (
       <>
-        <div className="header">{props.pagesRender()}</div>
+        <div className="header">{props.setPage()}</div>
       </>
     )
   }

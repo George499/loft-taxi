@@ -1,55 +1,30 @@
-import React, { Component } from "react";
+import React from "react";
 import Header from "./header";
 import './Header.scss'
 import "./App.scss";
 import Map from "./Map"
-class App extends Component {
+import Profile from './Profile'
+import Signup from './Signup'
+import Login from './Login'
 
-    state = {
-        pages: ["map", "signup", "login", "profile"],
-        routes: [  
-                    { action: () => <Map /> },  
-                    // { path: '/tasks', action: () => <TaskList /> },  
-                    // { path: '/tasks/:id', action: () => <TaskDetails /> }
-                ],
-      };
-      
+const pages = {
 
-    
-    pagesRender = () => {
-        return(
-            <ul className="nav">
-                {this.state.pages.map((page, index) => (
-                    <li className='nav__item' key={index}>
-                        <button>
-                            {page}
-                        </button>
-                    </li>
-                ))}
-            </ul>
-        )
-    }    
-render() {
-    return (
-        <>       
-            <Header pagesRender={this.pagesRender}/>
-            <Map/>
-        </>
-    );
+    profile: () => <Profile/>,
+    map: ()=> <Map />,
+    signup: setPage => <Signup setPage={setPage}/>,
+    login: setPage => <Login setPage={setPage}/>
 }
+
+function App () {
+const [page, setPage] = React.useState("login")
+
+return (
+<>       
+    <Header setPage={setPage}/>
+    {pages[page]}
+</>
+);
 }
 
 
 export default App;
-
-
-
-// this.state = {
-    //     routes: [  
-    //         { path: '/', action: () => <Header /> },  
-    //         // { path: '/tasks', action: () => <TaskList /> },  
-    //         // { path: '/tasks/:id', action: () => <TaskDetails /> }
-    //     ],
-    //     pageTitle: 'React Components',
-    //     show: false
-    // }

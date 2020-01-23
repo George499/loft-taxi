@@ -28,23 +28,27 @@ const pages = [
     link: <Login />
     }
 ]
-
-
-
 export default class App extends Component {    
-    state = {page: pages[0].link}   
+    constructor(props){
+    super(props)
 
-    currentPage = (e) => {
-        console.log(e.target.innerHTML)
+    this.state = {page: pages[0].link} 
+
+    this.currentPage = (e) => {
+        const pageName = e.target.innerHTML
+        console.log(pageName);
+        
     }
-    
-    handlePageContent = () => {
+
+    this.handlePageContent = () => {
     this.setState({             
-        page: this.currentPage
+        page: this.pageName
         })
     }
-        
+    
+}
     render() {
+        
         return (
             <div>                    
                 <Header 
@@ -52,7 +56,8 @@ export default class App extends Component {
                 handlePageContent={this.handlePageContent}
                 currentPage={this.currentPage}
                 />                
-                {this.state.page}                                             
+                {this.state.page}  
+                {console.log(this.pageName)}                     
             </div>
         )
     }

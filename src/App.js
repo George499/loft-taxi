@@ -31,33 +31,25 @@ const pages = [
 export default class App extends Component {    
     constructor(props){
     super(props)
-
     this.state = {page: pages[0].link} 
-
-    this.currentPage = (e) => {
-        const pageName = e.target.innerHTML
-        console.log(pageName);
-        
     }
 
-    this.handlePageContent = () => {
-    this.setState({             
-        page: this.pageName
-        })
+    currentPage = (e) => {
+    const pageName = e.target.innerHTML
+    this.setState({
+        page: pages.find((item) => item.name === pageName).link
+    })
     }
-    
-}
+
     render() {
         
         return (
             <div>                    
                 <Header 
-                pages={pages}                
-                handlePageContent={this.handlePageContent}
+                pages={pages} 
                 currentPage={this.currentPage}
                 />                
-                {this.state.page}  
-                {console.log(this.pageName)}                     
+                {this.state.page}
             </div>
         )
     }

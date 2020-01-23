@@ -4,9 +4,9 @@ import Radium from 'radium'
 
   const Header = (props) => {
 
-    const link = props.pages.map((page)=>{
+    const link = props.pages.map((page, index)=>{
       return(
-        <li>
+        <li key={index}>
           <button 
           onClick={props.currentPage}>{page.name}</button>
         </li>          

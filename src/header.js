@@ -4,9 +4,20 @@ import Radium from 'radium'
 
   const Header = (props) => {
 
+    const link = props.pages.map((page)=>{
+      return(
+        <li>
+          <button 
+          onClick={props.currentPage}>{page.name}</button>
+        </li>          
+      )
+  })
+
     return (
       <>
-        <div className="header">{props.setPage()}</div>
+        <div className="header">
+          <ul className='navList'>{link}</ul>
+        </div>
       </>
     )
   }

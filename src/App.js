@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from "react";
 import Header from "./header";
 import './Header.scss'
 import "./App.scss";
@@ -7,24 +7,53 @@ import Profile from './Profile'
 import Signup from './Signup'
 import Login from './Login'
 
-const pages = {
+const pages = [
+    {
+    name: 'profile',
+    link: <Profile/>
+    },
 
-    profile: () => <Profile/>,
-    map: ()=> <Map />,
-    signup: setPage => <Signup setPage={setPage}/>,
-    login: setPage => <Login setPage={setPage}/>
+    {
+    name: 'map',
+    link: <Map />
+    },
+
+    {
+    name: 'signup',
+    link: <Signup />
+    },
+
+    {
+    name: 'login',
+    link: <Login />
+    }
+]
+
+
+
+export default class App extends Component {    
+    state = {page: pages[0].link}   
+
+    currentPage = (e) => {
+        console.log(e.target.innerHTML)
+    }
+    
+    handlePageContent = () => {
+    this.setState({             
+        page: this.currentPage
+        })
+    }
+        
+    render() {
+        return (
+            <div>                    
+                <Header 
+                pages={pages}                
+                handlePageContent={this.handlePageContent}
+                currentPage={this.currentPage}
+                />                
+                {this.state.page}                                             
+            </div>
+        )
+    }
 }
-
-function App () {
-const [page, setPage] = React.useState("login")
-
-return (
-<>       
-    <Header setPage={setPage}/>
-    {pages[page]}
-</>
-);
-}
-
-
-export default App;

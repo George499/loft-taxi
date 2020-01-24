@@ -1,11 +1,12 @@
 import React, {Component} from "react";
-import Header from "./header";
-import './Header.scss'
+import Header from "../Pages/Header/header";
+import './../Pages/Header/Header.scss'
 import "./App.scss";
-import Map from "./Map"
-import Profile from './Profile'
-import Signup from './Signup'
-import Login from './Login'
+import Map from "../Pages/Map/Map"
+import Profile from '../Pages/Profile/Profile'
+import Signup from '../Pages/Signup/Signup'
+import Login from '../Pages/Login/Login'
+
 
 const pages = [
     {
@@ -28,11 +29,13 @@ const pages = [
     link: <Login />
     }
 ]
+
 export default class App extends Component {    
     constructor(props){
     super(props)
+
     this.state = {
-    page: pages[1].link} 
+    page: pages[3].link} 
     }
 
     currentPage = (e) => {
@@ -43,20 +46,19 @@ export default class App extends Component {
     })
 }
 
-    handleAuthorize = (e) => {
-    e.preventDefault()
+    handleAuthorize = () => {
+    
 	this.setState({
 	    page: pages.find((item) => item.name === 'map').link
     })
-    console.log(pages.find((item) => item.name).link);
+    
 };
-
     render() {
-        const {activePage} = this.state;
+        const {page} = this.state;
 		
 		let Component = null;
 
-		switch (activePage) {
+		switch (page) {
 			case pages.find((item) => item.name === 'map').link:
 				Component = <Map />;
 				break;
@@ -67,11 +69,11 @@ export default class App extends Component {
 				Component = <Login onAuthorize={this.handleAuthorize}/>;
 		}
         return (
-            <div>                    
+            <div className='wrapper'>                    
                 <Header 
                 pages={pages} 
-                currentPage={this.currentPage}                
-                />                
+                currentPage={this.currentPage}
+                />
                 {Component}
             </div>
         )

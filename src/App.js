@@ -31,25 +31,48 @@ const pages = [
 export default class App extends Component {    
     constructor(props){
     super(props)
-    this.state = {page: pages[0].link} 
+    this.state = {
+    page: pages[1].link} 
     }
 
     currentPage = (e) => {
     const pageName = e.target.innerHTML
+    
     this.setState({
         page: pages.find((item) => item.name === pageName).link
     })
-    }
+}
+
+    handleAuthorize = (e) => {
+    e.preventDefault()
+	this.setState({
+	    page: pages.find((item) => item.name === 'map').link
+    })
+    console.log(pages.find((item) => item.name).link);
+};
 
     render() {
-        
+        const {activePage} = this.state;
+		
+		let Component = null;
+
+		switch (activePage) {
+			case pages.find((item) => item.name === 'map').link:
+				Component = <Map />;
+				break;
+			case pages.find((item) => item.name === 'profile').link:
+				Component = <Profile />;
+				break;
+			default:
+				Component = <Login onAuthorize={this.handleAuthorize}/>;
+		}
         return (
             <div>                    
                 <Header 
                 pages={pages} 
-                currentPage={this.currentPage}
+                currentPage={this.currentPage}                
                 />                
-                {this.state.page}
+                {Component}
             </div>
         )
     }

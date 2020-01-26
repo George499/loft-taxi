@@ -10,23 +10,19 @@ import Login from '../Pages/Login/Login'
 
 const pages = [
     {
-    name: 'profile',
-    link: <Profile/>
+    name: 'profile'
     },
 
     {
-    name: 'map',
-    link: <Map />
+    name: 'map'
     },
 
     {
-    name: 'signup',
-    link: <Signup />
+    name: 'signup'
     },
 
     {
-    name: 'login',
-    link: <Login />
+    name: 'login'
     }
 ]
 
@@ -35,45 +31,40 @@ export default class App extends Component {
     super(props)
 
     this.state = {
-    page: pages[3].link} 
+    page: pages[3].name} 
     }
 
-    currentPage = (e) => {
-    const pageName = e.target.innerHTML
-    
+    currentPage = (buttonName = this.buttonName) => {
     this.setState({
-        page: pages.find((item) => item.name === pageName).link
+        page: buttonName
     })
 }
-
-    handleAuthorize = () => {
-    
-	this.setState({
-	    page: pages.find((item) => item.name === 'map').link
-    })
-    
-};
     render() {
         const {page} = this.state;
 		
-		let Component = null;
+        let Component = null;
 
-		switch (page) {
-			case pages.find((item) => item.name === 'map').link:
-				Component = <Map />;
-				break;
-			case pages.find((item) => item.name === 'profile').link:
-				Component = <Profile />;
-				break;
-			default:
-				Component = <Login onAuthorize={this.handleAuthorize}/>;
-		}
+        if (page === pages[0].name){
+            Component = <Profile />;
+        } 
+        else if (page === pages[1].name){
+            Component = <Map />;
+        }
+        else if (page === pages[2].name){
+            Component = <Signup />;
+        } else {
+            Component = <Login currentPage={this.currentPage}/>;
+        }
         return (
-            <div className='wrapper'>                    
-                <Header 
+            <div className='wrapper'>     
+            {page !== pages[3].name               
+            ?    <Header 
                 pages={pages} 
+                activePage={page}
                 currentPage={this.currentPage}
                 />
+                : null
+            }
                 {Component}
             </div>
         )

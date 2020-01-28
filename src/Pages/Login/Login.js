@@ -1,22 +1,30 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Radium from 'radium'
 import '../../Components/App.scss'
+import Form from '../Form/Form'
+import Signup from '../Signup/Signup'
+import {Button} from "@material-ui/core";
+
+
 
 function Login(props) {
 
-    const {currentPage} = props;
+    const [isLoginForm, setLoginForm] = useState(true)
 
-    const inputClass = ['input']
-
+    if (isLoginForm){
 	return (
     <div >
-    <form>
-        <input 
-        className={inputClass.join(' ')} />
-        <input type='text' className={inputClass.join(' ')} />    
-    </form>
-    <button onClick={currentPage}>Click</button>
+        <Form />
+        <Button onClick={props.currentPage}>Click</Button>
     </div>
     )
+    }
+    else {
+    return(
+        <div>
+            <Signup />
+        </div>
+        )
+    }
 }
 export default Radium(Login)

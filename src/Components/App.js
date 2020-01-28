@@ -4,37 +4,31 @@ import './../Pages/Header/Header.scss'
 import "./App.scss";
 import Map from "../Pages/Map/Map"
 import Profile from '../Pages/Profile/Profile'
-import Signup from '../Pages/Signup/Signup'
 import Login from '../Pages/Login/Login'
-
 
 const pages = [
     {
     name: 'profile'
     },
-
     {
     name: 'map'
     },
-
-    {
-    name: 'signup'
-    },
-
     {
     name: 'login'
     }
 ]
 
-export default class App extends Component {    
+class App extends Component { 
+    
     constructor(props){
-    super(props)
+    super(props)    
+
 
     this.state = {
-    page: pages[3].name} 
+    page: pages[2].name} 
     }
 
-    currentPage = (buttonName = this.buttonName) => {
+    currentPage = (buttonName) => {
     this.setState({
         page: buttonName
     })
@@ -49,24 +43,22 @@ export default class App extends Component {
         } 
         else if (page === pages[1].name){
             Component = <Map />;
-        }
-        else if (page === pages[2].name){
-            Component = <Signup />;
         } else {
             Component = <Login currentPage={this.currentPage}/>;
         }
         return (
             <div className='wrapper'>     
-            {page !== pages[3].name               
+            {page !== pages[2].name               
             ?    <Header 
                 pages={pages} 
                 activePage={page}
                 currentPage={this.currentPage}
-                />
+                />                
                 : null
             }
-                {Component}
+                {Component}                
             </div>
         )
     }
 }
+export default App

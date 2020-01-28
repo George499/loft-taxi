@@ -10,6 +10,7 @@ function Signup(props) {
 
 	return (
     <div >
+        <h1>Регистрация</h1>
     <form>
         <input 
         className={inputClass.join(' ')} />

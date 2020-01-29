@@ -1,9 +1,8 @@
 import React, {useState} from 'react'
 import Radium from 'radium'
-import '../../Components/App.scss'
-import Form from '../Form/Form'
+import './login.scss'
+import Form from '../../Components/Form/Form'
 import Signup from '../Signup/Signup'
-import {Button} from "@material-ui/core";
 
 
 
@@ -14,8 +13,7 @@ function Login(props) {
     if (isLoginForm){
 	return (
     <div >
-        <Form />
-        <Button onClick={props.currentPage}>Click</Button>
+        <Form currentPage={props.currentPage}/>
     </div>
     )
     }

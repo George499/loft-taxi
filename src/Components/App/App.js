@@ -1,10 +1,9 @@
 import React, {Component} from "react";
-import Header from "../Pages/Header/header";
-import './../Pages/Header/Header.scss'
+import Header from "../Header/Header";
 import "./App.scss";
-import Map from "../Pages/Map/Map"
-import Profile from '../Pages/Profile/Profile'
-import Login from '../Pages/Login/Login'
+import Map from "../../Pages/Map/Map"
+import Profile from '../../Pages/Profile/Profile'
+import Login from '../../Pages/Login/Login'
 
 const pages = [
     {

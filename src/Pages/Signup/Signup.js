@@ -1,6 +1,6 @@
 import React from 'react'
 import Radium from 'radium'
-import '../../Components/App.scss'
+import './../../Components/App/App.scss'
 
 function Signup(props) {
 

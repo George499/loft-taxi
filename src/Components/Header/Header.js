@@ -10,9 +10,8 @@ import {Button} from "@material-ui/core";
     Header.propTypes = {
       pages: PropTypes.number 
     }
-      
 
-    const handleNavLinkClick = (e) => {    
+    const handleNavLinkClick = (e) => {       
       const buttonName = e.target.dataset.page;
       props.currentPage(buttonName)
   };
@@ -20,12 +19,13 @@ import {Button} from "@material-ui/core";
     const link = props.pages.map((page, index)=>{
       return(
         <li key={index}>
-          <Button data-page={page.name}>
-          {page.name}
-          </Button>  
+            <Button variant="contained" color="primary">
+              <div data-page={page.name}>{page.name}</div>
+            </Button> 
         </li>          
       )
   })
+
     return (
       <>
         <div className="header">

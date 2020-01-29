@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-import App from './Components/App';
+import App from './Components/App/App';
 import * as serviceWorker from './serviceWorker';
 import 'typeface-roboto';
 import { theme } from "loft-taxi-mui-theme"; 

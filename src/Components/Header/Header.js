@@ -19,8 +19,8 @@ import {Button} from "@material-ui/core";
     const link = props.pages.map((page, index)=>{
       return(
         <li key={index}>
-            <Button variant="contained" color="primary">
-              <div data-page={page.name}>{page.name}</div>
+            <Button data-page={page.name} variant="contained" color="primary">
+             <span data-page={page.name}>{page.name}</span> 
             </Button> 
         </li>          
       )

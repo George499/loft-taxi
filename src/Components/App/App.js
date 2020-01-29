@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, useRef} from "react";
 import Header from "../Header/Header";
 import "./App.scss";
 import Map from "../../Pages/Map/Map"
@@ -20,17 +20,24 @@ const pages = [
 class App extends Component { 
     
     constructor(props){
-    super(props)    
-
-
+    super(props)
+    
     this.state = {
     page: pages[2].name} 
     }
+    
 
+    mapRef = () => useRef()
+
+    
     currentPage = (buttonName) => {
     this.setState({
         page: buttonName
     })
+}
+componentDidMount() {
+    console.log(this.mapRef.current);
+    
 }
     render() {
         const {page} = this.state;
@@ -41,7 +48,7 @@ class App extends Component {
             Component = <Profile />;
         } 
         else if (page === pages[1].name){
-            Component = <Map />;
+            Component = <Map ref={this.mapRef}/>;
         } else {
             Component = <Login currentPage={this.currentPage}/>;
         }

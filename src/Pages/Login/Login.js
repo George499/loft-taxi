@@ -3,22 +3,28 @@ import Radium from 'radium'
 import './login.scss'
 import Form from '../../Components/Form/Form'
 import Signup from '../Signup/Signup'
-import {Button} from "@material-ui/core";
-
+import { Logo } from "loft-taxi-mui-theme"; 
 
 
 function Login(props) {
 
     const [isLoginForm, setLoginForm] = useState(true)
 
-    const toggleLogin = () => {
-        setLoginForm(!isLoginForm)
-    }
+    // const toggleLogin = () => {
+    //     setLoginForm(!isLoginForm)
+    // }
+
+    // this.setState({
+    //     page: buttonName
+    // })
 
     if (isLoginForm){
 	return (
-    <div >
-        <Form currentPage={props.currentPage}/>        
+    <div className="login-container">
+        <Logo class="login-logo" width="156" alt="Logo" />
+        <div className="modal-window">
+            <Form currentPage={props.currentPage}/>        
+        </div>
     </div>
     )
     }

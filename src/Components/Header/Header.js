@@ -19,8 +19,8 @@ import {Button} from "@material-ui/core";
     const link = props.pages.map((page, index)=>{
       return(
         <li key={index}>
-            <Button data-page={page.name} variant="contained" color="primary">
-             <span data-page={page.name}>{page.name}</span> 
+            <Button data-page={page.name} variant="outlined" color="primary" aria-label="outlined primary button group">
+              <span data-page={page.name}>{page.name}</span> 
             </Button> 
         </li>          
       )
@@ -29,9 +29,9 @@ import {Button} from "@material-ui/core";
     return (
       <>
         <div className="header">
+        <Logo/>
           <ul className='navList'
-          onClick={handleNavLinkClick}>{link}</ul>
-          <Logo/>
+          onClick={handleNavLinkClick}>{link}</ul>          
         </div>
       </>
     )

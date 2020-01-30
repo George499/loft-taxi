@@ -4,6 +4,7 @@ import "./App.scss";
 import Map from "../../Pages/Map/Map"
 import Profile from '../../Pages/Profile/Profile'
 import Login from '../../Pages/Login/Login'
+import Radium from'radium'
 
 const pages = [
     {
@@ -29,16 +30,12 @@ class App extends Component {
 
     mapRef = () => useRef()
 
-    
     currentPage = (buttonName) => {
     this.setState({
         page: buttonName
     })
 }
-componentDidMount() {
-    console.log(this.mapRef.current);
-    
-}
+
     render() {
         const {page} = this.state;
 		
@@ -60,11 +57,11 @@ componentDidMount() {
                 activePage={page}
                 currentPage={this.currentPage}
                 />                
-                : null
+            : null
             }
                 {Component}                
             </div>
         )
     }
 }
-export default App
+export default Radium(App)

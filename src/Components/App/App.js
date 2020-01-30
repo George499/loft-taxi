@@ -45,7 +45,7 @@ class App extends Component {
             Component = <Profile />;
         } 
         else if (page === pages[1].name){
-            Component = <Map ref={this.mapRef}/>;
+            Component = <Map />;
         } else {
             Component = <Login currentPage={this.currentPage}/>;
         }

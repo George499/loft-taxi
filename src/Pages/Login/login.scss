@@ -1,13 +1,8 @@
-.login-container {
+.main-wrap {
     background-size: cover;
-    background-image: url('./images/background.png');
-    height: 100vh;
-    width: 100%;
-    justify-content: center;
-    display: flex;
-    flex-wrap: wrap;
-    box-sizing: border-box;
-    align-content: center;
+    background-image: url('../Login/images/login-background.jpg');
+    
+    
 }
 .modal-window {
     flex-grow: 0;

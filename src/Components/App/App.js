@@ -50,7 +50,7 @@ class App extends Component {
             Component = <Login currentPage={this.currentPage}/>;
         }
         return (
-            <div className='wrapper'>     
+        <>
             {page !== pages[2].name               
             ?    <Header 
                 pages={pages} 
@@ -60,7 +60,7 @@ class App extends Component {
             : null
             }
                 {Component}                
-            </div>
+        </>    
         )
     }
 }

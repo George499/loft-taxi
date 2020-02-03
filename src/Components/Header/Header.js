@@ -1,6 +1,5 @@
 import React from "react"
 import './Header.scss'
-import Radium from 'radium'
 import {Logo} from "loft-taxi-mui-theme"; 
 import PropTypes from 'prop-types'
 import {Button} from "@material-ui/core";
@@ -8,13 +7,14 @@ import {Button} from "@material-ui/core";
   const Header = (props) => {
 
     Header.propTypes = {
-      pages: PropTypes.number 
+      pages: PropTypes.array 
     }
 
     const handleNavLinkClick = (e) => {       
       const buttonName = e.target.dataset.page;
-      props.currentPage(buttonName)
+      props.currentPage(buttonName)      
   };
+
 
     const link = props.pages.map((page, index)=>{
       return(
@@ -30,6 +30,7 @@ import {Button} from "@material-ui/core";
       <>
         <div className="header">
         <Logo/>
+        
           <ul className='navList'
           onClick={handleNavLinkClick}>{link}</ul>          
         </div>
@@ -38,4 +39,4 @@ import {Button} from "@material-ui/core";
     
   }
 
-export default Radium(Header)
+export default Header

@@ -1,13 +1,12 @@
-import React, { useState } from 'react'
-import Radium from 'radium'
+import React, { useState, useContext } from 'react'
 import './Form.scss'
 import { Input, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Signup from './../../Pages/Signup/Signup'
 import { Link, FormControl, InputLabel  } from '@material-ui/core';
-
+import PropTypes from 'prop-types'
+import {Context} from '../../Components/App/Context'
 
 const useStyles = makeStyles({
     
@@ -23,12 +22,16 @@ const useStyles = makeStyles({
   });
 
 function Form (props) {
-    const toMap = () => props.currentPage('map')
 
+    Form.propTypes = {
+        currentPage: PropTypes.func ,
+        toggleLogin: PropTypes.func
+      }
+
+    const {logout} = useContext(Context)  
+    const toMap = () => props.currentPage('map')   
     const [firstName, setFirstName] = useState(``)  
     const [lastName, setLastName] = useState(``)
-    
-
 
     const handleSubmit = e => {
     e.preventDefault()
@@ -44,18 +47,18 @@ function Form (props) {
 
     const classes = useStyles();
 
-    return (
+return (
     <form onSubmit={handleSubmit}>
         <Grid container={true}>
             <Grid item xs={12}>
-            <Typography className={classes.formButton} align="left" variant="h4" component="h1" gutterBottom>
+            <Typography className={classes.formInput} align="left" variant="h4" component="h1" gutterBottom>
             Войти
             </Typography>
             <Typography variant='body1' component="p" align="left">
             Новый пользователь? 
             <Link 
+            onClick={logout}
             className={classes.registerLink}
-            href='/signup'
             underline="hover"
             color="primary"> 
             Зарегистрируйтесь
@@ -63,30 +66,29 @@ function Form (props) {
             </Typography>
             </Grid>
             <Grid item xs={12}>
-            <FormControl className={classes.formInput} fullWidth="true" color="secondary">
-                  <InputLabel 
+            <FormControl className={classes.formInput} fullWidth color="secondary">
+                <InputLabel 
                     value={firstName} 
                     placeholder={'Имя'}
-                    onChange={handleFirstNameChange}>
+                    onChange={handleFirstNameChange}>                        
                     Имя пользователя
-                  </InputLabel >
-                  <Input formControl="true"/>
+                </InputLabel >
+                <Input />
             </FormControl>
-            <FormControl className={classes.formInput} fullWidth="true" color="secondary">
+            <FormControl className={classes.formInput} fullWidth color="secondary">
                   <InputLabel 
                   value={lastName} 
                 placeholder={'Фамилия'}
                 onChange={handleLastNameChange}>
                   Пароль
                   </InputLabel >
-                  <Input formControl="true"/>
+                  <Input />
             </FormControl>            
             </Grid>
             <Grid item xs={12} align="right">
                 <Button 
                 onClick={toMap}
-                type="submit" 
-                tabindex="0"                               
+                type="submit"            
                 value="submit" 
                 variant="contained" 
                 color="primary">
@@ -98,5 +100,5 @@ function Form (props) {
     )
 }
 
-export default Radium(Form)
+export default Form
 

@@ -1,10 +1,10 @@
-import React, {Component, useRef} from "react";
+import React, {useState} from "react";
 import Header from "../Header/Header";
 import "./App.scss";
 import Map from "../../Pages/Map/Map"
 import Profile from '../../Pages/Profile/Profile'
 import Login from '../../Pages/Login/Login'
-import Radium from'radium'
+import {Context} from './Context'
 
 const pages = [
     {
@@ -18,50 +18,47 @@ const pages = [
     }
 ]
 
-class App extends Component { 
+export default function App ()  { 
+    const mapRef = React.createRef() 
     
-    constructor(props){
-    super(props)
-    
-    this.state = {
-    page: pages[2].name} 
+    const [page, setPage] = useState(pages[2].name)
+    const [isLoggedIn, setLoggedIn] = useState(true)
+
+    const logout = () => {
+        setLoggedIn (false)
     }
-    
+    const login = (email, password) => {
+        
+            setLoggedIn (true)
+        
+    }
 
-    mapRef = () => useRef()
-
-    currentPage = (buttonName) => {
-    this.setState({
-        page: buttonName
-    })
+    const currentPage = (buttonName) => {
+    setPage( buttonName )
 }
+    let Component = null;
 
-    render() {
-        const {page} = this.state;
-		
-        let Component = null;
+    if (page === pages[0].name){
+        Component = <Profile />;
+    } 
+    else if (page === pages[1].name){
+        Component = <Map ref={mapRef} />;
+    } else {
+        Component = <Login currentPage={currentPage}/>;
+    }
 
-        if (page === pages[0].name){
-            Component = <Profile />;
-        } 
-        else if (page === pages[1].name){
-            Component = <Map />;
-        } else {
-            Component = <Login currentPage={this.currentPage}/>;
+    return (
+    <Context.Provider value={{login, logout, isLoggedIn}}>
+        {page !== pages[2].name               
+        ?    <Header 
+            pages={pages} 
+            activePage={page}
+            currentPage={currentPage}
+            />                
+        : null
         }
-        return (
-        <>
-            {page !== pages[2].name               
-            ?    <Header 
-                pages={pages} 
-                activePage={page}
-                currentPage={this.currentPage}
-                />                
-            : null
-            }
-                {Component}                
-        </>    
-        )
-    }
+            {Component}   
+    </Context.Provider>     
+    )
 }
-export default Radium(App)
+    

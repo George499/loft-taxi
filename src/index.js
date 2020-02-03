@@ -5,12 +5,13 @@ import App from './Components/App/App';
 import * as serviceWorker from './serviceWorker';
 import 'typeface-roboto';
 import { theme } from "loft-taxi-mui-theme"; 
-import { MuiThemeProvider } from "@material-ui/core/styles";
+import { MuiThemeProvider } from "@material-ui/core";
+
 
 
 ReactDOM.render(
-    <MuiThemeProvider theme={theme}>
-      <App />      
+    <MuiThemeProvider theme={theme}>     
+        <App />         
     </MuiThemeProvider>,
     document.getElementById("root")
   );

@@ -1,13 +1,13 @@
 import React, {useState} from 'react'
 import ReactMapGL from 'react-map-gl';
-import {Paper, Grid, FormControl, Input, Typography} from '@material-ui/core';
+import {Paper, Grid, FormControl, TextField, Button} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-const Map = () => {
+const Map = React.forwardRef((props, ref) => {
 
     const useStyles = makeStyles({
         mapModal: {
-            maxWidth: '30%',
+            maxWidth: '20%',
             padding: '44px 60px',
             marginTop: '48px',
             marginBottom: '48px',
@@ -19,7 +19,7 @@ const Map = () => {
             height: 'auto',
             display: 'flex',
             padding: '0',
-            minWidth: '384px'
+            
         }
       });
 
@@ -35,7 +35,8 @@ const Map = () => {
 
     return (
         <div style={{position: 'relative', zIndex: '-10'}}>
-            <ReactMapGL             
+            <ReactMapGL               
+            style={{position: 'absolute', top: '0px', bottom: '0px', left: '0px', right: '0px', width: '100%', height: '880px'}}    
             {...viewport} 
             mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
             mapStyle="mapbox://styles/georgeisaev/ck5z7ctu17adp1inwpu37v147"
@@ -44,25 +45,42 @@ const Map = () => {
                 }}   
             >   
             </ReactMapGL>
-            <Paper className={classes.mapModal} elevation={1} rounded={true}>
-                <Grid container="true">
-                <Grid item xs={12}>
-                    <FormControl fullWidth="true">
-                        <Input type="text" className={classes.modalInput}>
-                            <Typography variant='body1' component="p" align="left">Откуда</Typography>
-                        </Input>
-                        
+            <Paper className={classes.mapModal} elevation={1}>
+                <Grid container>
+                <Grid item xs={12} style={{marginBottom: '30px'}}>
+                    <FormControl fullWidth >                       
+                        <TextField
+                            className={classes.modalInput}                            
+                            id="standard-full-width"  
+                            fullWidth                          
+                            style={{ margin: 8 }}
+                            placeholder="Откуда"  
+                            margin="normal"
+                        />
                     </FormControl>
                 </Grid>
-                <Grid item xs={12}>
-                    <Input></Input>
+                <Grid item xs={12} style={{marginBottom: '30px'}}>
+                <FormControl fullWidth>                       
+                        <TextField
+                            className={classes.modalInput}                            
+                            id="standard-full-width"                            
+                            style={{ margin: 8 }}
+                            placeholder="Куда"                            
+                            fullWidth       
+                            margin="normal"
+                            
+                        />
+                    </FormControl>
+                    
                 </Grid>
-                <Grid item xs={12}></Grid>
+                <Grid item xs={12}>
+                    <Button ref={ref} fullWidth variant="contained" color="primary">Вызвать такси</Button>
+                </Grid>
                 </Grid>
             </Paper> 
 
         </div>
     )
-}
+})
 
 export default Map

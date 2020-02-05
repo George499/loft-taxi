@@ -6,12 +6,15 @@ import * as serviceWorker from './serviceWorker';
 import 'typeface-roboto';
 import { theme } from "loft-taxi-mui-theme"; 
 import { MuiThemeProvider } from "@material-ui/core";
+import {LoginProvider} from './Components/Context/Context'
 
 
 
 ReactDOM.render(
-    <MuiThemeProvider theme={theme}>     
+    <MuiThemeProvider theme={theme}>   
+      <LoginProvider >
         <App />         
+      </LoginProvider>
     </MuiThemeProvider>,
     document.getElementById("root")
   );

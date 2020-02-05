@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import SignupForm from '../../Components/Form/SignupForm';
 import PropTypes from 'prop-types'
-import {Context} from '../../Components/App/Context'
+import {ContextLogin} from '../../Components/Context/Context'
 
 function Login(props) {
 
@@ -37,14 +37,14 @@ function Login(props) {
         }));
         
         
-    const {isLoggedIn} = useContext(Context)
+    const {isLoggedIn} = useContext(ContextLogin)
     
     const classes = useStyles();
 
     if (isLoggedIn){
 	return (
     <Paper className="main-wrap" elevation={1}>
-        <Grid container className={classes.paper} wrap="nowrap" spacing={2}>
+        <Grid container className={classes.paper} wrap="nowrap">
             <Grid item xs={3}>
                 <Logo width="156" alt="Logo" />  
             </Grid>
@@ -60,7 +60,7 @@ function Login(props) {
     else {
     return(        
     <Paper className="main-wrap" elevation={1}>
-        <Grid container className={classes.paper} wrap="nowrap" spacing={2}>
+        <Grid container className={classes.paper} wrap="nowrap">
             <Grid item xs={3}>
                 <Logo class="login-logo" width="156" alt="Logo" />
             </Grid>

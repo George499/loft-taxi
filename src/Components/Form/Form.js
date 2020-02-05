@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Link, FormControl, InputLabel  } from '@material-ui/core';
 import PropTypes from 'prop-types'
-import {Context} from '../../Components/App/Context'
+import {ContextLogin} from '../Context/Context'
 
 const useStyles = makeStyles({
     
@@ -28,14 +28,14 @@ function Form (props) {
         toggleLogin: PropTypes.func
       }
 
-    const {logout} = useContext(Context)  
+    const {login} = useContext(ContextLogin)  
     const toMap = () => props.currentPage('map')   
     const [firstName, setFirstName] = useState(``)  
     const [lastName, setLastName] = useState(``)
 
     const handleSubmit = e => {
     e.preventDefault()
-    console.log(firstName, lastName);
+    login()
     }
     
     const handleFirstNameChange = e => {
@@ -48,8 +48,8 @@ function Form (props) {
     const classes = useStyles();
 
 return (
-    <form onSubmit={handleSubmit}>
-        <Grid container={true}>
+    <form onSubmit={toMap}>
+        <Grid container>
             <Grid item xs={12}>
             <Typography className={classes.formInput} align="left" variant="h4" component="h1" gutterBottom>
             Войти
@@ -57,7 +57,7 @@ return (
             <Typography variant='body1' component="p" align="left">
             Новый пользователь? 
             <Link 
-            onClick={logout}
+            onClick={login}
             className={classes.registerLink}
             underline="hover"
             color="primary"> 
@@ -78,8 +78,8 @@ return (
             <FormControl className={classes.formInput} fullWidth color="secondary">
                   <InputLabel 
                   value={lastName} 
-                placeholder={'Фамилия'}
-                onChange={handleLastNameChange}>
+                  placeholder={'Фамилия'}
+                  onChange={handleLastNameChange}>
                   Пароль
                   </InputLabel >
                   <Input />
@@ -87,9 +87,8 @@ return (
             </Grid>
             <Grid item xs={12} align="right">
                 <Button 
-                onClick={toMap}
-                type="submit"            
-                value="submit" 
+                // onClick={toMap}
+                type="submit"
                 variant="contained" 
                 color="primary">
                     Войти

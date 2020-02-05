@@ -6,14 +6,14 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Link, FormControl, InputLabel  } from '@material-ui/core';
 import PropTypes from 'prop-types'
-import {Context} from '../../Components/App/Context'
+import {ContextLogin} from '../Context/Context'
 
 export default function SignupForm(props) {   
     
     SignupForm.propTypes = {
         toggleLogin: PropTypes.func 
       }
-    const {login} = useContext(Context)      
+    const {login} = useContext(ContextLogin)      
 
     const useStyles = makeStyles({
     

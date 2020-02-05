@@ -1,9 +1,26 @@
-import React, {useState} from 'react'
-import ReactMapGL from 'react-map-gl';
+import React, {useEffect, useRef} from 'react'
+import './Map.scss'
+import mapboxgl from 'mapbox-gl';
 import {Paper, Grid, FormControl, TextField, Button} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-const Map = React.forwardRef((props, ref) => {
+const Map = () => {
+
+    let mapRef = useRef(null)
+
+    useEffect(() => {
+        const map = new mapboxgl.Map({
+            accessToken: 'pk.eyJ1IjoiZ2VvcmdlaXNhZXYiLCJhIjoiY2s1ejZtM2ppMDZ2NTNncWpjcmgyMnR5NSJ9.fxa6wtBm8oLF6UNVsQeJMQ',            
+            container: mapRef.current,
+            center: [37.6174943, 55.7504461],
+            zoom: 10,
+            style: 'mapbox://styles/georgeisaev/ck5z7ctu17adp1inwpu37v147',
+            dragRotate: false
+        }) 
+        return () => {
+            map.remove()
+        };
+    })
 
     const useStyles = makeStyles({
         mapModal: {
@@ -23,35 +40,17 @@ const Map = React.forwardRef((props, ref) => {
         }
       });
 
-    const [viewport, setViewport] = useState({
-        latitude: 55.7504461,
-        longitude: 37.6174943,
-        zoom: 10,
-        width: '100vw',
-        height: '100vh'
-    })
-
     const classes = useStyles();
 
     return (
         <div style={{position: 'relative', zIndex: '-10'}}>
-            <ReactMapGL               
-            style={{position: 'absolute', top: '0px', bottom: '0px', left: '0px', right: '0px', width: '100%', height: '880px'}}    
-            {...viewport} 
-            mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-            mapStyle="mapbox://styles/georgeisaev/ck5z7ctu17adp1inwpu37v147"
-             onViewportChange={viewport => {
-                 setViewport(viewport)
-                }}   
-            >   
-            </ReactMapGL>
+            <div ref={mapRef} className="map-wrapper" ></div>
             <Paper className={classes.mapModal} elevation={1}>
                 <Grid container>
                 <Grid item xs={12} style={{marginBottom: '30px'}}>
                     <FormControl fullWidth >                       
                         <TextField
-                            className={classes.modalInput}                            
-                            id="standard-full-width"  
+                            className={classes.modalInput}   
                             fullWidth                          
                             style={{ margin: 8 }}
                             placeholder="Откуда"  
@@ -63,7 +62,7 @@ const Map = React.forwardRef((props, ref) => {
                 <FormControl fullWidth>                       
                         <TextField
                             className={classes.modalInput}                            
-                            id="standard-full-width"                            
+                                                       
                             style={{ margin: 8 }}
                             placeholder="Куда"                            
                             fullWidth       
@@ -74,13 +73,13 @@ const Map = React.forwardRef((props, ref) => {
                     
                 </Grid>
                 <Grid item xs={12}>
-                    <Button ref={ref} fullWidth variant="contained" color="primary">Вызвать такси</Button>
+                    <Button fullWidth variant="contained" color="primary">Вызвать такси</Button>
                 </Grid>
                 </Grid>
             </Paper> 
 
         </div>
     )
-})
+}
 
 export default Map

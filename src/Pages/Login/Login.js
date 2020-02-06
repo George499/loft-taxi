@@ -1,13 +1,12 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import './login.scss'
 import Form from '../../Components/Form/Form'
 import { Logo } from "loft-taxi-mui-theme"; 
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import SignupForm from '../../Components/Form/SignupForm';
 import PropTypes from 'prop-types'
-import {ContextLogin} from '../../Components/Context/Context'
+
 
 function Login(props) {
 
@@ -35,13 +34,8 @@ function Login(props) {
             marginBottom: '48px'
         },        
         }));
-        
-        
-    const {isLoggedIn} = useContext(ContextLogin)
     
     const classes = useStyles();
-
-    if (isLoggedIn){
 	return (
     <Paper className="main-wrap" elevation={1}>
         <Grid container className={classes.paper} wrap="nowrap">
@@ -56,24 +50,6 @@ function Login(props) {
          </Grid>
     </Paper>
     )
-    }
-    else {
-    return(        
-    <Paper className="main-wrap" elevation={1}>
-        <Grid container className={classes.paper} wrap="nowrap">
-            <Grid item xs={3}>
-                <Logo class="login-logo" width="156" alt="Logo" />
-            </Grid>
-            <Grid item xs={3}>
-                <Paper className={classes.modalForm} square={false} elevation={1}>
-                    <SignupForm />
-                </Paper>
-            </Grid>
-         </Grid>
-    </Paper>
-        
-        )
-    }
 }
 export default Login
 

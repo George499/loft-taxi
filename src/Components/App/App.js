@@ -8,13 +8,16 @@ import {ContextLogin} from '../Context/Context'
 
 const pages = [
     {
-    name: 'profile'
+    name: 'profile',
+    text: 'Профиль'
     },
     {
-    name: 'map'
+    name: 'map',
+    text: 'Карта'
     },
     {
-    name: 'login'
+    name: 'login',
+    text: 'Выйти'
     }
 ]
 
@@ -26,7 +29,7 @@ export default function App ()  {
 
     const currentPage = (buttonName) => {
     setPage( buttonName )
-}
+    }
 
     let Component = null;
 
@@ -41,13 +44,10 @@ export default function App ()  {
 
     return (
 <>
-    {page !== pages[2].name               
-        ?    <Header 
-            pages={pages}
-            currentPage={currentPage}
-            />                
-        : null
-        }
-            {Component}   
+    {isLoggedIn              
+    ?    <Header pages={pages} currentPage={currentPage}/>                
+    : null
+    }
+    {Component}   
 </>
 )}

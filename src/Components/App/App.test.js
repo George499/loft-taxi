@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { render } from '@testing-library/react';
 import App from './App';
 import {shallow} from 'enzyme'
@@ -13,5 +14,5 @@ it("renders without crashing", () => {
 
 it('renders shallow', () => {
   const wrapper = shallow(<App/>)
-  expect(wrapper.contains(<Header/>)).toBeTruthy();
+  expect(wrapper.contains(<Header pages={{name: 'profile'}, {name: 'map'}, {name: 'login'}}/>)).toBeFalsy();
 }) 

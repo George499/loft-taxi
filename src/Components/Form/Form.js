@@ -28,15 +28,18 @@ function Form (props) {
         toggleLogin: PropTypes.func
       }
 
-    const {login} = useContext(ContextLogin)  
-    const toMap = () => props.currentPage('map')   
+    const {login} = useContext(ContextLogin)      
     const [firstName, setFirstName] = useState(``)  
     const [lastName, setLastName] = useState(``)
 
     const handleSubmit = e => {
     e.preventDefault()
     login()
+    props.currentPage('map') 
     }
+    const [isRegistered, setIsRegistered] = useState(true)
+    const toSignup = () => setIsRegistered(false)
+    const toLogin = () => setIsRegistered(true)
     
     const handleFirstNameChange = e => {
     setFirstName( e.target.value )
@@ -48,8 +51,9 @@ function Form (props) {
     const classes = useStyles();
 
 return (
-    <form onSubmit={toMap}>
-        <Grid container>
+    <form onSubmit={handleSubmit}>
+        {(isRegistered)
+        ? <Grid container>
             <Grid item xs={12}>
             <Typography className={classes.formInput} align="left" variant="h4" component="h1" gutterBottom>
             Войти
@@ -57,7 +61,7 @@ return (
             <Typography variant='body1' component="p" align="left">
             Новый пользователь? 
             <Link 
-            onClick={login}
+            onClick={toSignup}
             className={classes.registerLink}
             underline="hover"
             color="primary"> 
@@ -95,6 +99,67 @@ return (
                 </Button>
             </Grid>
         </Grid>
+        : <Grid container>
+            <Grid item xs={12} >
+            <Typography className={classes.formInput} align="left" variant="h4" component="h1">
+            Регистрация
+            </Typography>
+            <Typography style={{marginBottom: '10px'}} variant='body1' component="p" align="left">
+            Уже зарегестрированы? 
+            <Link 
+            onClick={toLogin}
+            className={classes.registerLink}            
+            underline="hover"
+            color="primary"> 
+            Войти
+            </Link>
+            </Typography>
+            </Grid>
+            <Grid item xs={12} style={{padding: '8px'}}>
+            <FormControl className={classes.formInput} fullWidth color="secondary">
+                <InputLabel                     
+                    placeholder={'Адрес электронной почты'}>                 
+                    Адрес электронной почты
+                </InputLabel >
+                <Input />
+            </FormControl>
+            </Grid>
+            <Grid item xs={6} style={{padding: '8px'}}>            
+            <FormControl className={classes.formInput} fullWidth color="secondary">
+                    <InputLabel placeholder={'Имя'}>                
+                    Имя
+                    </InputLabel >
+                    <Input />
+            </FormControl> 
+            </Grid>
+            <Grid item xs={6} style={{padding: '8px'}}>
+            <FormControl className={classes.formInput} fullWidth color="secondary">                    
+                <InputLabel placeholder={'Фамилия'}>                
+                Фамилия
+                </InputLabel > 
+                <Input />                   
+            </FormControl>            
+            </Grid>
+            <Grid item xs={12} style={{padding: '8px'}}>
+            <FormControl className={classes.formInput} fullWidth color="secondary">
+                <InputLabel                     
+                    placeholder={'Пароль'}>                 
+                    Пароль
+                </InputLabel >
+                <Input />
+            </FormControl>
+            </Grid>
+            <Grid item xs={12} align="right">
+                <Button                 
+                type="submit"            
+                value="submit" 
+                variant="contained" 
+                color="primary">
+                    Войти
+                </Button>
+            </Grid>
+        </Grid>
+        }
     </form>
     )
 }

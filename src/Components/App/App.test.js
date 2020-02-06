@@ -2,6 +2,8 @@ import React, {useContext} from 'react';
 import ReactDOM from 'react-dom';
 import { render } from '@testing-library/react';
 import App from './App';
+import Form from '../Form/Form'
+import Login from '../../Pages/Login/Login'
 import {shallow} from 'enzyme'
 import Header from '../Header/Header';
 import * as ContextLogin from '../Context/Context';
@@ -13,7 +15,7 @@ jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
 
 describe('<App />', () => {
   it('it should mock the context', () => {
-    const contextValues = { color: 'orange' };
+    const contextValues = { };
     jest
       .spyOn(ContextLogin, 'useContextLogin')
       .mockImplementation(() => contextValues);
@@ -26,9 +28,12 @@ describe('<App />', () => {
       ReactDOM.unmountComponentAtNode(div);
     });
   it("header showing buttons", () => {    
-    const header = shallow(<Header pages={{name: 'profile'}, {name: 'map'}, {name: 'login'}} />)
-    expect(header.find('button'))
+    const header = shallow(<Header />)        
+    
+    
+    
   });
   
 });
+
 

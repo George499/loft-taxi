@@ -20,9 +20,8 @@ import {Button} from "@material-ui/core";
         logout()
       }    
   };
-
-
-    const link = props.pages.map((page, index)=>{
+    
+    const link = Array.isArray(props.pages) && props.pages.map((page, index)=>{
       return(
         <li key={index}>
             <Button data-page={page.name}  color="primary" style={{marginRight: '5px'}}>

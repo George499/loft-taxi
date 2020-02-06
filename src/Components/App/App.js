@@ -1,10 +1,10 @@
-import React, {useState, useContext} from "react";
+import React, {useState } from "react";
+import { useContextLogin } from '../Context/Context'
 import Header from "../Header/Header";
 import "./App.scss";
 import Map from "../../Pages/Map/Map"
 import Profile from '../../Pages/Profile/Profile'
 import Login from '../../Pages/Login/Login'
-import {ContextLogin} from '../Context/Context'
 
 const pages = [
     {
@@ -23,7 +23,7 @@ const pages = [
 
 export default function App ()  { 
 
-    const {isLoggedIn} = useContext(ContextLogin)
+    const {isLoggedIn} = useContextLogin()
         
     const [page, setPage] = useState(pages[2].name)    
 

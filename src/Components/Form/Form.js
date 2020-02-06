@@ -1,4 +1,5 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
+import { useContextLogin } from '../Context/Context'
 import './Form.scss'
 import { Input, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,7 +7,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Link, FormControl, InputLabel  } from '@material-ui/core';
 import PropTypes from 'prop-types'
-import {ContextLogin} from '../Context/Context'
 
 const useStyles = makeStyles({
     
@@ -28,7 +28,7 @@ function Form (props) {
         toggleLogin: PropTypes.func
       }
 
-    const {login} = useContext(ContextLogin)      
+    const {login} = useContextLogin()      
     const [firstName, setFirstName] = useState(``)  
     const [lastName, setLastName] = useState(``)
 
@@ -58,7 +58,7 @@ return (
             <Typography className={classes.formInput} align="left" variant="h4" component="h1" gutterBottom>
             Войти
             </Typography>
-            <Typography variant='body1' component="p" align="left">
+            <Typography className={classes.formInput} variant='body1' component="p" align="left">
             Новый пользователь? 
             <Link 
             onClick={toSignup}
@@ -90,8 +90,7 @@ return (
             </FormControl>            
             </Grid>
             <Grid item xs={12} align="right">
-                <Button 
-                // onClick={toMap}
+                <Button                 
                 type="submit"
                 variant="contained" 
                 color="primary">

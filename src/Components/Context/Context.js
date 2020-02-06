@@ -1,6 +1,8 @@
-import React from 'react'
+import React, {useContext} from 'react'
 
 export const ContextLogin = React.createContext(null)
+
+export const useContextLogin = () => useContext(ContextLogin)
 
 export const LoginProvider = ({ children, defaultData}) => {
     const [isLoggedIn, setLoggedIn] = React.useState(defaultData)

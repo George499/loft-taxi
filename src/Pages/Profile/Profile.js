@@ -2,6 +2,7 @@ import React from 'react'
 import { Paper, Grid, Typography, Box, FormControl, InputLabel, Input, FormHelperText, FormLabel, Button } from '@material-ui/core';
 import './Profile.scss';
 import { makeStyles } from '@material-ui/core/styles';
+import {MCIcon} from "loft-taxi-mui-theme";
 
 
 const Profile = () => {
@@ -17,8 +18,7 @@ const Profile = () => {
           modalContainer: {
             padding: '44px 60px',
             marginTop: '48px',
-            marginBottom: '48px',
-            heigh: '40%'
+            marginBottom: '48px'            
         },
         naming: {
             color: 'rgba(0, 0, 0, 0.54)',
@@ -51,8 +51,8 @@ const Profile = () => {
 
     return (
         <Paper className="profile-root" elevation={0} >             
-            <Grid container align="center" direction="column" style={{minHeight: "100vh"}}>
-                <Grid item >
+            <Grid container alignItems='center' direction="column" style={{minHeight: "100vh"}}>
+                <Grid>
                     <Paper className={classes.modalContainer} elevation={1} >
                     <Typography className={classes.formButton} align="center" variant="h4" component="h1" gutterBottom>
                         Профиль
@@ -66,8 +66,9 @@ const Profile = () => {
                             <Grid container spacing={4} justify="center" className={classes.formContainer}>
                             <Grid item xs={6}>                            
                             <Paper className={classes.payCard} elevation={1}>
-                                <Box className={classes.payBox}>                                    
-                                    <FormControl >                                    
+                                <Box className={classes.payBox}>  
+                                    <MCIcon/>                                     
+                                    <FormControl >                  
                                         <InputLabel htmlFor="component-error">Номер карты</InputLabel>
                                         <Input
                                         id="component-error"

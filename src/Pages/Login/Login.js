@@ -40,7 +40,7 @@ function Login(props) {
     <Paper className="main-wrap" elevation={1}>
         <Grid container className={classes.paper} wrap="nowrap">
             <Grid item xs={3}>
-                <Logo width="156" alt="Logo" />  
+                <Logo animated white width="156" alt="Logo" />  
             </Grid>
             <Grid item xs={3}>
                 <Paper className={classes.modalForm} square elevation={1}>

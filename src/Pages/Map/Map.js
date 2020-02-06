@@ -1,5 +1,5 @@
-import React, {useEffect, useRef} from 'react'
-import './Map.scss'
+import React, {useEffect, useRef} from 'react';
+import './Map.scss';
 import mapboxgl from 'mapbox-gl';
 import {Paper, Grid, FormControl, TextField, Button} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -61,7 +61,7 @@ const Map = () => {
                 <Grid item xs={12} style={{marginBottom: '30px'}}>
                 <FormControl fullWidth>                       
                         <TextField
-                            className={classes.modalInput}                            
+                            className={classes.modalInput}                           
                                                        
                             style={{ margin: 8 }}
                             placeholder="Куда"                            

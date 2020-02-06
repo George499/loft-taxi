@@ -1,9 +1,9 @@
-import React, {useContext} from "react"
+import React  from "react"
+import { useContextLogin } from '../Context/Context'
 import './Header.scss'
 import {Logo} from "loft-taxi-mui-theme"; 
 import PropTypes from 'prop-types'
 import {Button} from "@material-ui/core";
-import {ContextLogin} from '../Context/Context'
 
   const Header = (props) => {
 
@@ -11,7 +11,7 @@ import {ContextLogin} from '../Context/Context'
       pages: PropTypes.array 
     }
 
-    const {logout} = useContext(ContextLogin)  
+    const {logout} = useContextLogin()  
 
     const handleNavLinkClick = (e) => {
       const buttonName = e.target.dataset.page;
@@ -36,7 +36,6 @@ import {ContextLogin} from '../Context/Context'
       <>
         <div className="header">
         <Logo/>
-        
           <ul className='navList'
           onClick={handleNavLinkClick}>{link}</ul>          
         </div>

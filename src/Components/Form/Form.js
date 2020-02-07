@@ -34,8 +34,7 @@ function Form (props) {
 
     const handleSubmit = e => {
     e.preventDefault()
-    login()
-    props.currentPage('map') 
+    login()    
     }
     const [isRegistered, setIsRegistered] = useState(true)
     const toSignup = () => setIsRegistered(false)

@@ -7,13 +7,14 @@ import 'typeface-roboto';
 import { theme } from "loft-taxi-mui-theme"; 
 import { MuiThemeProvider } from "@material-ui/core";
 import {LoginProvider} from './Components/Context/Context'
-
-
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
     <MuiThemeProvider theme={theme}>   
       <LoginProvider >
-        <App />         
+        <BrowserRouter>
+          <App />        
+        </BrowserRouter> 
       </LoginProvider>
     </MuiThemeProvider>,
     document.getElementById("root")

@@ -5,6 +5,7 @@ import "./App.scss";
 import Map from "../../Pages/Map/Map"
 import Profile from '../../Pages/Profile/Profile'
 import Login from '../../Pages/Login/Login'
+import {BrowserRouter, Switch, Route } from 'react-router-dom'
 
 const pages = [
     {
@@ -31,23 +32,28 @@ export default function App ()  {
     setPage( buttonName )
     }
 
-    let Component = null;
+    // let Component = null;
 
-    if (page === pages[0].name){
-        Component = <Profile />;
-    } 
-    else if (page === pages[1].name){
-        Component = <Map />;
-    } else {
-        Component = <Login currentPage={currentPage}/>;
-    }
+    // if (page === pages[0].name){
+    //     Component = <Profile />;
+    // } 
+    // else if (page === pages[1].name){
+    //     Component = <Map />;
+    // } else {
+    //     Component = <Login currentPage={currentPage}/>;
+    // }
 
     return (
 <>
-    {isLoggedIn              
-    ?    <Header pages={pages} currentPage={currentPage}/>                
-    : null
-    }
-    {Component}   
+    {(isLoggedIn)
+    ?
+    <Header pages={pages}/>
+    :
+    <Switch>
+    <Route path="/login" component={Login}/> 
+    <Route path="/map" component={Map}/>
+    <Route path="/profile" component={Profile}/>
+    </Switch>}
+
 </>
 )}

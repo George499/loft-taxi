@@ -4,6 +4,7 @@ import './Header.scss'
 import {Logo} from "loft-taxi-mui-theme"; 
 import PropTypes from 'prop-types'
 import {Button} from "@material-ui/core";
+import { Link } from 'react-router-dom'
 
   const Header = (props) => {
 
@@ -12,22 +13,16 @@ import {Button} from "@material-ui/core";
     }
 
     const {logout} = useContextLogin()  
-
-    const handleNavLinkClick = (e) => {
-      const buttonName = e.target.dataset.page;
-      props.currentPage(buttonName)  
-      if (buttonName === 'login'){
-        logout()
-      }    
-  };
     
     const link = Array.isArray(props.pages) && props.pages.map((page, index)=>{
       return(
+        <Link to={page.name} className='nav'>
         <li key={index}>
             <Button data-page={page.name}  color="primary" style={{marginRight: '5px'}}>
               <span data-page={page.name}>{page.text}</span> 
             </Button> 
         </li>          
+        </Link>
       )
   })
 
@@ -35,8 +30,7 @@ import {Button} from "@material-ui/core";
       <>
         <div className="header">
         <Logo/>
-          <ul className='navList'
-          onClick={handleNavLinkClick}>{link}</ul>          
+          <ul className='navList'>{link}</ul>          
         </div>
       </>
     )

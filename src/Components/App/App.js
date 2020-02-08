@@ -1,4 +1,5 @@
-import React, {Component} from "react";
+import React, {useState } from "react";
+import { useContextLogin } from '../Context/Context'
 import Header from "../Header/Header";
 import "./App.scss";
 import Map from "../../Pages/Map/Map"
@@ -7,57 +8,46 @@ import Login from '../../Pages/Login/Login'
 
 const pages = [
     {
-    name: 'profile'
+    name: 'profile',
+    text: 'Профиль'
     },
     {
-    name: 'map'
+    name: 'map',
+    text: 'Карта'
     },
     {
-    name: 'login'
+    name: 'login',
+    text: 'Выйти'
     }
 ]
 
-class App extends Component { 
-    
-    constructor(props){
-    super(props)    
+export default function App ()  { 
 
+    const {isLoggedIn} = useContextLogin()
+        
+    const [page, setPage] = useState(pages[2].name)    
 
-    this.state = {
-    page: pages[2].name} 
+    const currentPage = (buttonName) => {
+    setPage( buttonName )
     }
 
-    currentPage = (buttonName) => {
-    this.setState({
-        page: buttonName
-    })
-}
-    render() {
-        const {page} = this.state;
-		
-        let Component = null;
+    let Component = null;
 
-        if (page === pages[0].name){
-            Component = <Profile />;
-        } 
-        else if (page === pages[1].name){
-            Component = <Map />;
-        } else {
-            Component = <Login currentPage={this.currentPage}/>;
-        }
-        return (
-            <div className='wrapper'>     
-            {page !== pages[2].name               
-            ?    <Header 
-                pages={pages} 
-                activePage={page}
-                currentPage={this.currentPage}
-                />                
-                : null
-            }
-                {Component}                
-            </div>
-        )
+    if (page === pages[0].name){
+        Component = <Profile />;
+    } 
+    else if (page === pages[1].name){
+        Component = <Map />;
+    } else {
+        Component = <Login currentPage={currentPage}/>;
     }
-}
-export default App
+
+    return (
+<>
+    {isLoggedIn              
+    ?    <Header pages={pages} currentPage={currentPage}/>                
+    : null
+    }
+    {Component}   
+</>
+)}

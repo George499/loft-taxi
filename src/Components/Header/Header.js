@@ -1,6 +1,6 @@
-import React from "react"
+import React  from "react"
+import { useContextLogin } from '../Context/Context'
 import './Header.scss'
-import Radium from 'radium'
 import {Logo} from "loft-taxi-mui-theme"; 
 import PropTypes from 'prop-types'
 import {Button} from "@material-ui/core";
@@ -8,19 +8,24 @@ import {Button} from "@material-ui/core";
   const Header = (props) => {
 
     Header.propTypes = {
-      pages: PropTypes.number 
+      pages: PropTypes.array 
     }
 
-    const handleNavLinkClick = (e) => {       
-      const buttonName = e.target.dataset.page;
-      props.currentPage(buttonName)
-  };
+    const {logout} = useContextLogin()  
 
-    const link = props.pages.map((page, index)=>{
+    const handleNavLinkClick = (e) => {
+      const buttonName = e.target.dataset.page;
+      props.currentPage(buttonName)  
+      if (buttonName === 'login'){
+        logout()
+      }    
+  };
+    
+    const link = Array.isArray(props.pages) && props.pages.map((page, index)=>{
       return(
         <li key={index}>
-            <Button data-page={page.name} variant="contained" color="primary">
-             <span data-page={page.name}>{page.name}</span> 
+            <Button data-page={page.name}  color="primary" style={{marginRight: '5px'}}>
+              <span data-page={page.name}>{page.text}</span> 
             </Button> 
         </li>          
       )
@@ -29,13 +34,13 @@ import {Button} from "@material-ui/core";
     return (
       <>
         <div className="header">
+        <Logo/>
           <ul className='navList'
-          onClick={handleNavLinkClick}>{link}</ul>
-          <Logo/>
+          onClick={handleNavLinkClick}>{link}</ul>          
         </div>
       </>
     )
     
   }
 
-export default Radium(Header)
+export default Header

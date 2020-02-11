@@ -8,13 +8,19 @@ import { theme } from "loft-taxi-mui-theme";
 import { MuiThemeProvider } from "@material-ui/core";
 import { LoginProvider } from "./Components/Context/Context";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import getStore from "./Redux/Store/Store";
+
+const store = getStore();
 
 ReactDOM.render(
   <MuiThemeProvider theme={theme}>
     <LoginProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
     </LoginProvider>
   </MuiThemeProvider>,
   document.getElementById("root")

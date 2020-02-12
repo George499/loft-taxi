@@ -9,6 +9,7 @@ import { Link, FormControl, InputLabel } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { testAuth, login } from "../../Redux/Actions/Actions";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles({
   formBottom: {
@@ -23,6 +24,8 @@ const useStyles = makeStyles({
 });
 
 function Form(props) {
+  const isLoggedIn = props.isLoggedIn;
+  console.log(isLoggedIn);
   Form.propTypes = {
     toggleLogin: PropTypes.func,
     goToMap: PropTypes.func
@@ -206,4 +209,8 @@ function Form(props) {
   );
 }
 
-export default withRouter(Form);
+const mapStateToProps = state => {
+  return { isLoggedIn: state.isLoggedIn };
+};
+
+export default connect(mapStateToProps)(withRouter(Form));

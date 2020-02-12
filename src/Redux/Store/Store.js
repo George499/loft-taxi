@@ -1,12 +1,6 @@
 import { createStore } from "redux";
 import rootReducer from "../Reducers/rootReducer";
+import authReducer from "../Reducers/authReducer";
 
-const getInitialState = () => {
-  let isLoggedIn = false;
-  if (isLoggedIn === undefined) isLoggedIn = false;
-  return { isLoggedIn };
-};
-
-const getStore = () =>
-  createStore(rootReducer, { authReducer: { ...getInitialState() } });
+const getStore = () => createStore(authReducer);
 export default getStore;

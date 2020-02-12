@@ -6,6 +6,7 @@ import Map from "../../Pages/Map/Map";
 import Profile from "../../Pages/Profile/Profile";
 import Login from "../../Pages/Login/Login";
 import { Redirect, Switch, Route } from "react-router-dom";
+import { connect } from "react-redux";
 
 const pages = [
   {
@@ -22,7 +23,7 @@ const pages = [
   }
 ];
 
-export default function App() {
+function App(props) {
   const { isLoggedIn } = useContextLogin();
 
   if (isLoggedIn) {
@@ -46,3 +47,11 @@ export default function App() {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    isLoggedIn: state.isLoggedIn
+  };
+}
+
+export default connect(mapStateToProps)(App);

@@ -2,10 +2,9 @@ import { createStore } from "redux";
 import rootReducer from "../Reducers/rootReducer";
 
 const getInitialState = () => {
-  let { isLoggedIn, profile } = localStorage.state;
-  if (profile === undefined) profile = {};
+  let isLoggedIn = false;
   if (isLoggedIn === undefined) isLoggedIn = false;
-  return { isLoggedIn: isLoggedIn, profile: profile };
+  return { isLoggedIn };
 };
 
 const getStore = () =>

@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import { Link, FormControl, InputLabel } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
+import { testAuth, login } from "../../Redux/Actions/Actions";
 
 const useStyles = makeStyles({
   formBottom: {
@@ -35,11 +36,10 @@ function Form(props) {
     props.history.push("/map");
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    login();
-    goToMap();
+  const handleSubmit = () => {
+    testAuth({ firstName, lastName });
   };
+
   const [isRegistered, setIsRegistered] = useState(true);
   const toSignup = () => setIsRegistered(false);
   const toLogin = () => setIsRegistered(true);

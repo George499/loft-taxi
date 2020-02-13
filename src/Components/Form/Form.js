@@ -1,14 +1,18 @@
 import React, { useState } from "react";
-import { useContextLogin } from "../Context/Context";
 import "./Form.scss";
-import { Input, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import { Link, FormControl, InputLabel } from "@material-ui/core";
+import {
+  Link,
+  FormControl,
+  Input,
+  InputLabel,
+  Button
+} from "@material-ui/core";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
-import { testAuth, login } from "../../Redux/Actions/Actions";
+import { handleProfileSubmit, login } from "../../Redux/Actions/Actions";
 import { connect } from "react-redux";
 
 const useStyles = makeStyles({
@@ -25,31 +29,38 @@ const useStyles = makeStyles({
 
 function Form(props) {
   const isLoggedIn = props.isLoggedIn;
-  console.log(isLoggedIn);
+  const login = props.login;
+  const handleProfileSubmit = props.handleProfileSubmit;
+  const profile = props.profile;
+
   Form.propTypes = {
     toggleLogin: PropTypes.func,
     goToMap: PropTypes.func
   };
 
-  const { login } = useContextLogin();
-  const [firstName, setFirstName] = useState(``);
-  const [lastName, setLastName] = useState(``);
-
   const goToMap = () => {
     props.history.push("/map");
   };
 
-  const handleSubmit = () => {
-    testAuth({ firstName, lastName });
+  const handleSubmit = e => {
+    e.preventDefault();
+    handleProfileSubmit(loadProfile);
+    login();
+    // goToMap();
   };
 
   const [isRegistered, setIsRegistered] = useState(true);
   const toSignup = () => setIsRegistered(false);
   const toLogin = () => setIsRegistered(true);
 
+  const [firstName, setFirstName] = useState(``);
+  const [lastName, setLastName] = useState(``);
+  const loadProfile = { firstName, lastName };
+
   const handleFirstNameChange = e => {
     setFirstName(e.target.value);
   };
+
   const handleLastNameChange = e => {
     setLastName(e.target.value);
   };
@@ -93,13 +104,13 @@ function Form(props) {
               fullWidth
               color="secondary"
             >
-              <InputLabel
-                value={firstName}
+              <InputLabel>Имя пользователя</InputLabel>
+              <Input
+                disableUnderline
                 placeholder={"Имя"}
                 onChange={handleFirstNameChange}
-              >
-                Имя пользователя
-              </InputLabel>
+                value={"=value"}
+              ></Input>
               <Input />
             </FormControl>
             <FormControl
@@ -210,7 +221,15 @@ function Form(props) {
 }
 
 const mapStateToProps = state => {
-  return { isLoggedIn: state.isLoggedIn };
+  return { isLoggedIn: state.isLoggedIn, profile: state.profile };
 };
 
-export default connect(mapStateToProps)(withRouter(Form));
+const mapDispatchToProps = dispatch => {
+  return {
+    handleProfileSubmit: loadProfile =>
+      dispatch(handleProfileSubmit(loadProfile)),
+    login: () => dispatch(login())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Form));

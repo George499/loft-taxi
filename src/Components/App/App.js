@@ -24,7 +24,7 @@ const pages = [
 ];
 
 function App(props) {
-  const { isLoggedIn } = useContextLogin();
+  const isLoggedIn = props.isLoggedIn;
 
   if (isLoggedIn) {
     return (

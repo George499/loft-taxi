@@ -25,10 +25,9 @@ const authReducer = (state = initialState, action) => {
       };
 
     case handleProfileSubmit.toString():
-      const { profile } = action.payload;
       return {
         ...state,
-        profile: profile
+        profile: action.payload
       };
 
     case handleProfileClear.toString():

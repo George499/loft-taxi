@@ -5,13 +5,16 @@ import { Logo } from "loft-taxi-mui-theme";
 import PropTypes from "prop-types";
 import { Button } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
 
 const Header = props => {
+  const logout = props.logout;
+
   Header.propTypes = {
     pages: PropTypes.array
   };
 
-  const { logout } = useContextLogin();
+  const logExit = () => logout();
 
   const link =
     Array.isArray(props.pages) &&
@@ -22,7 +25,7 @@ const Header = props => {
             <Button
               onClick={() => {
                 if (page.name === "login") {
-                  logout();
+                  logExit();
                 }
               }}
               data-page={page.name}
@@ -46,4 +49,14 @@ const Header = props => {
   );
 };
 
-export default Header;
+const mapStateToProps = state => {
+  return { logout: state.logout };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => dispatch({ type: "LOGOUT" })
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

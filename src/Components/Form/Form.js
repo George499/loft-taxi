@@ -223,7 +223,7 @@ function Form(props) {
 }
 
 const mapStateToProps = state => {
-  return { isLoggedIn: state.isLoggedIn, profile: state.profile };
+  return { isLoggedIn: state.isLoggedIn, profile: state.currentUser };
 };
 
 const mapDispatchToProps = dispatch => {

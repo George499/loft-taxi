@@ -6,7 +6,7 @@ const loggerMiddleware = getStore => next => async action => {
   // eslint-disable-next-line default-case
   switch (type) {
     case registerUser.toString():
-      await fetch("https://loft-taxi.glitch.me/register", {
+      fetch("https://loft-taxi.glitch.me/register", {
         headers: {
           "Content-Type": "application/json"
         },
@@ -19,7 +19,7 @@ const loggerMiddleware = getStore => next => async action => {
       break;
 
     case handleAuth.toString():
-      await fetch("https://loft-taxi.glitch.me/auth", {
+      fetch("https://loft-taxi.glitch.me/auth", {
         headers: {
           "Content-Type": "application/json"
         },
@@ -27,7 +27,7 @@ const loggerMiddleware = getStore => next => async action => {
         body: JSON.stringify(payload)
       })
         .then(res => res.json())
-        .then(data => console.log(data));
+        .then(data => localStorage.setItem("user token", data.token));
 
       break;
   }

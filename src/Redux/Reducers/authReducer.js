@@ -1,8 +1,14 @@
-import { login, logout, registerUser, handleAuth } from "../Actions/Actions";
+import {
+  login,
+  logout,
+  registerUser,
+  handleAuth,
+  getProfileFetch
+} from "../Actions/Actions";
 
 const initialState = {
   isLoggedIn: false,
-  profile: {}
+  currentUser: {}
 };
 
 const authReducer = (state = initialState, action) => {
@@ -16,21 +22,24 @@ const authReducer = (state = initialState, action) => {
     case logout.toString():
       return {
         ...state,
-        isLoggedIn: false
+        isLoggedIn: false,
+        currentUser: {}
       };
 
     case handleAuth.toString():
-      console.log(action.payload);
-
       return {
         ...state,
-        profile: action.payload
+        currentUser: action.payload
       };
 
     case registerUser.toString():
       return {
         ...state,
-        profile: action.payload
+        currentUser: action.payload
+      };
+    case getProfileFetch.toString():
+      return {
+        ...state
       };
 
     default:

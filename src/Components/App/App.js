@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../Header/Header";
 import "./App.scss";
 import Map from "../../Pages/Map/Map";
@@ -6,6 +6,7 @@ import Profile from "../../Pages/Profile/Profile";
 import Login from "../../Pages/Login/Login";
 import { Redirect, Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
+import { getProfileFetch } from "../../Redux/Actions/Actions";
 
 const pages = [
   {
@@ -24,6 +25,10 @@ const pages = [
 
 function App(props) {
   const isLoggedIn = props.isLoggedIn;
+  const getProfileFetch = props.getProfileFetch;
+  useEffect(() => {
+    getProfileFetch();
+  });
 
   if (isLoggedIn) {
     return (
@@ -47,10 +52,14 @@ function App(props) {
   }
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
     isLoggedIn: state.isLoggedIn
   };
-}
+};
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => ({
+  getProfileFetch: () => dispatch(getProfileFetch())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

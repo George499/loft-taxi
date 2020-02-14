@@ -1,9 +1,4 @@
-import {
-  login,
-  logout,
-  handleProfileSubmit,
-  handleProfileClear
-} from "../Actions/Actions";
+import { login, logout, registerUser, handleAuth } from "../Actions/Actions";
 
 const initialState = {
   isLoggedIn: false,
@@ -24,16 +19,18 @@ const authReducer = (state = initialState, action) => {
         isLoggedIn: false
       };
 
-    case handleProfileSubmit.toString():
+    case handleAuth.toString():
+      console.log(action.payload);
+
       return {
         ...state,
         profile: action.payload
       };
 
-    case handleProfileClear.toString():
+    case registerUser.toString():
       return {
         ...state,
-        profile: {}
+        profile: action.payload
       };
 
     default:

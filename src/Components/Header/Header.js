@@ -1,5 +1,4 @@
 import React from "react";
-import { useContextLogin } from "../Context/Context";
 import "./Header.scss";
 import { Logo } from "loft-taxi-mui-theme";
 import PropTypes from "prop-types";

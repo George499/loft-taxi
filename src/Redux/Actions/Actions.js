@@ -2,7 +2,5 @@ import { createAction } from "redux-actions";
 
 export const login = createAction("LOGIN");
 export const logout = createAction("LOGOUT");
-export const testAuth = createAction("AUTH");
-
-export const handleProfileSubmit = createAction("HANDLE_PROFILE_SUBMIT");
-export const handleProfileClear = createAction("HANDLE_PROFILE_CLEAR");
+export const registerUser = createAction("REGISTER");
+export const handleAuth = createAction("AUTH");

@@ -11,7 +11,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import getStore from "./Redux/Store/Store";
 
-const store = getStore();
+const store = getStore;
 
 ReactDOM.render(
   <MuiThemeProvider theme={theme}>

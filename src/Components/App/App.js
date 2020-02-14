@@ -1,5 +1,4 @@
 import React from "react";
-import { useContextLogin } from "../Context/Context";
 import Header from "../Header/Header";
 import "./App.scss";
 import Map from "../../Pages/Map/Map";

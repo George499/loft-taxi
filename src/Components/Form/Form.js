@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
-import { handleProfileSubmit, login } from "../../Redux/Actions/Actions";
+import { handleAuth, registerUser, login } from "../../Redux/Actions/Actions";
 import { connect } from "react-redux";
 
 const useStyles = makeStyles({
@@ -28,10 +28,9 @@ const useStyles = makeStyles({
 });
 
 function Form(props) {
-  const isLoggedIn = props.isLoggedIn;
   const login = props.login;
-  const handleProfileSubmit = props.handleProfileSubmit;
-  const profile = props.profile;
+  const handleAuth = props.handleAuth;
+  const registerUser = props.registerUser;
 
   Form.propTypes = {
     toggleLogin: PropTypes.func,
@@ -42,180 +41,183 @@ function Form(props) {
     props.history.push("/map");
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    handleProfileSubmit(loadProfile);
-    login();
-    // goToMap();
-  };
-
   const [isRegistered, setIsRegistered] = useState(true);
   const toSignup = () => setIsRegistered(false);
   const toLogin = () => setIsRegistered(true);
 
-  const [firstName, setFirstName] = useState(``);
-  const [lastName, setLastName] = useState(``);
-  const loadProfile = { firstName, lastName };
+  const [name, setName] = useState(``);
+  const [email, setEmail] = useState(``);
+  const [surname, setSurname] = useState(``);
+  const [password, setPassword] = useState(``);
 
-  const handleFirstNameChange = e => {
-    setFirstName(e.target.value);
+  const handleNameChange = e => {
+    setName(e.target.value);
   };
 
-  const handleLastNameChange = e => {
-    setLastName(e.target.value);
+  const handleEmailChange = e => {
+    setEmail(e.target.value);
+  };
+  const handleSurnameChange = e => {
+    setSurname(e.target.value);
+  };
+  const handlePasswordChange = e => {
+    setPassword(e.target.value);
+  };
+
+  const registerUserData = { email, password, name, surname };
+  const userAuthData = { email, password };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    handleAuth(userAuthData);
+    login();
+    goToMap();
+  };
+
+  const handleRegister = e => {
+    e.preventDefault();
+    registerUser(registerUserData);
   };
 
   const classes = useStyles();
 
-  return (
+  return isRegistered ? (
     <form onSubmit={handleSubmit}>
-      {isRegistered ? (
-        <Grid container>
-          <Grid item xs={12}>
-            <Typography
-              className={classes.formInput}
-              align="left"
-              variant="h4"
-              component="h1"
-              gutterBottom
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography
+            className={classes.formInput}
+            align="left"
+            variant="h4"
+            component="h1"
+            gutterBottom
+          >
+            Войти
+          </Typography>
+          <Typography
+            className={classes.formInput}
+            variant="body1"
+            component="p"
+            align="left"
+          >
+            Новый пользователь?
+            <Link
+              onClick={toSignup}
+              className={classes.registerLink}
+              underline="hover"
+              color="primary"
             >
-              Войти
-            </Typography>
-            <Typography
-              className={classes.formInput}
-              variant="body1"
-              component="p"
-              align="left"
-            >
-              Новый пользователь?
-              <Link
-                onClick={toSignup}
-                className={classes.registerLink}
-                underline="hover"
-                color="primary"
-              >
-                Зарегистрируйтесь
-              </Link>
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl
-              className={classes.formInput}
-              fullWidth
-              color="secondary"
-            >
-              <InputLabel>Имя пользователя</InputLabel>
-              <Input
-                disableUnderline
-                placeholder={"Имя"}
-                onChange={handleFirstNameChange}
-                value={"=value"}
-              ></Input>
-              <Input />
-            </FormControl>
-            <FormControl
-              className={classes.formInput}
-              fullWidth
-              color="secondary"
-            >
-              <InputLabel
-                value={lastName}
-                placeholder={"Фамилия"}
-                onChange={handleLastNameChange}
-              >
-                Пароль
-              </InputLabel>
-              <Input />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} align="right">
-            <Button type="submit" variant="contained" color="primary">
-              Войти
-            </Button>
-          </Grid>
+              Зарегистрируйтесь
+            </Link>
+          </Typography>
         </Grid>
-      ) : (
-        <Grid container>
-          <Grid item xs={12}>
-            <Typography
-              className={classes.formInput}
-              align="left"
-              variant="h4"
-              component="h1"
-            >
-              Регистрация
-            </Typography>
-            <Typography
-              style={{ marginBottom: "10px" }}
-              variant="body1"
-              component="p"
-              align="left"
-            >
-              Уже зарегестрированы?
-              <Link
-                onClick={toLogin}
-                className={classes.registerLink}
-                underline="hover"
-                color="primary"
-              >
-                Войти
-              </Link>
-            </Typography>
-          </Grid>
-          <Grid item xs={12} style={{ padding: "8px" }}>
-            <FormControl
-              className={classes.formInput}
-              fullWidth
-              color="secondary"
-            >
-              <InputLabel placeholder={"Адрес электронной почты"}>
-                Адрес электронной почты
-              </InputLabel>
-              <Input />
-            </FormControl>
-          </Grid>
-          <Grid item xs={6} style={{ padding: "8px" }}>
-            <FormControl
-              className={classes.formInput}
-              fullWidth
-              color="secondary"
-            >
-              <InputLabel placeholder={"Имя"}>Имя</InputLabel>
-              <Input />
-            </FormControl>
-          </Grid>
-          <Grid item xs={6} style={{ padding: "8px" }}>
-            <FormControl
-              className={classes.formInput}
-              fullWidth
-              color="secondary"
-            >
-              <InputLabel placeholder={"Фамилия"}>Фамилия</InputLabel>
-              <Input />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} style={{ padding: "8px" }}>
-            <FormControl
-              className={classes.formInput}
-              fullWidth
-              color="secondary"
-            >
-              <InputLabel placeholder={"Пароль"}>Пароль</InputLabel>
-              <Input />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} align="right">
-            <Button
-              type="submit"
-              value="submit"
-              variant="contained"
+        <Grid item xs={12}>
+          <FormControl
+            className={classes.formInput}
+            fullWidth
+            color="secondary"
+          >
+            <InputLabel>Имя Пользователя</InputLabel>
+            <Input onChange={handleEmailChange} value={email}></Input>
+          </FormControl>
+          <FormControl
+            className={classes.formInput}
+            fullWidth
+            color="secondary"
+          >
+            <InputLabel>Пароль</InputLabel>
+            <Input value={password} onChange={handlePasswordChange}></Input>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} align="right">
+          <Button type="submit" variant="contained" color="primary">
+            Войти
+          </Button>
+        </Grid>
+      </Grid>
+    </form>
+  ) : (
+    <form onSubmit={handleRegister}>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography
+            className={classes.formInput}
+            align="left"
+            variant="h4"
+            component="h1"
+          >
+            Регистрация
+          </Typography>
+          <Typography
+            style={{ marginBottom: "10px" }}
+            variant="body1"
+            component="p"
+            align="left"
+          >
+            Уже зарегестрированы?
+            <Link
+              onClick={toLogin}
+              className={classes.registerLink}
+              underline="hover"
               color="primary"
             >
               Войти
-            </Button>
-          </Grid>
+            </Link>
+          </Typography>
         </Grid>
-      )}
+        <Grid item xs={12} style={{ padding: "8px" }}>
+          <FormControl
+            className={classes.formInput}
+            fullWidth
+            color="secondary"
+          >
+            <InputLabel placeholder={"Адрес электронной почты"}>
+              Адрес электронной почты
+            </InputLabel>
+            <Input onChange={handleEmailChange} value={email} />
+          </FormControl>
+        </Grid>
+        <Grid item xs={6} style={{ padding: "8px" }}>
+          <FormControl
+            className={classes.formInput}
+            fullWidth
+            color="secondary"
+          >
+            <InputLabel placeholder={"Имя"}>Имя</InputLabel>
+            <Input onChange={handleNameChange} value={name} />
+          </FormControl>
+        </Grid>
+        <Grid item xs={6} style={{ padding: "8px" }}>
+          <FormControl
+            className={classes.formInput}
+            fullWidth
+            color="secondary"
+          >
+            <InputLabel placeholder={"Фамилия"}>Фамилия</InputLabel>
+            <Input onChange={handleSurnameChange} value={surname} />
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} style={{ padding: "8px" }}>
+          <FormControl
+            className={classes.formInput}
+            fullWidth
+            color="secondary"
+          >
+            <InputLabel placeholder={"Пароль"}>Пароль</InputLabel>
+            <Input onChange={handlePasswordChange} value={password} />
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} align="right">
+          <Button
+            type="submit"
+            value="submit"
+            variant="contained"
+            color="primary"
+          >
+            Войти
+          </Button>
+        </Grid>
+      </Grid>
     </form>
   );
 }
@@ -226,8 +228,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleProfileSubmit: loadProfile =>
-      dispatch(handleProfileSubmit(loadProfile)),
+    registerUser: registerUserData => dispatch(registerUser(registerUserData)),
+    handleAuth: userAuthData => dispatch(handleAuth(userAuthData)),
     login: () => dispatch(login())
   };
 };

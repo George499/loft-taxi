@@ -26,6 +26,7 @@ const pages = [
 function App(props) {
   const isLoggedIn = props.isLoggedIn;
   const getProfileFetch = props.getProfileFetch;
+
   useEffect(() => {
     getProfileFetch();
   });
@@ -35,8 +36,8 @@ function App(props) {
       <>
         <Header pages={pages} />
         <Switch>
-          <Route path="/login" component={Login} />
-          <Redirect exact from="/" to="/login" />
+          <Redirect from="/login" to="/map" />
+          <Redirect exact from="/" to="/map" />
           <Route path="/map" component={Map} />
           <Route path="/profile" component={Profile} />
         </Switch>

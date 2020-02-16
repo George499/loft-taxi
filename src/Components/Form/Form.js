@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
-import { handleAuth, registerUser, login } from "../../Redux/Actions/Actions";
+import { handleAuth, registerUser } from "../../Redux/Actions/Actions";
 import { connect } from "react-redux";
 
 const useStyles = makeStyles({
@@ -28,17 +28,12 @@ const useStyles = makeStyles({
 });
 
 function Form(props) {
-  const login = props.login;
   const handleAuth = props.handleAuth;
   const registerUser = props.registerUser;
 
   Form.propTypes = {
     toggleLogin: PropTypes.func,
     goToMap: PropTypes.func
-  };
-
-  const goToMap = () => {
-    props.history.push("/map");
   };
 
   const [isRegistered, setIsRegistered] = useState(true);
@@ -70,8 +65,6 @@ function Form(props) {
   const handleSubmit = e => {
     e.preventDefault();
     handleAuth(userAuthData);
-    login();
-    goToMap();
   };
 
   const handleRegister = e => {
@@ -222,16 +215,11 @@ function Form(props) {
   );
 }
 
-const mapStateToProps = state => {
-  return { isLoggedIn: state.isLoggedIn, profile: state.currentUser };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
     registerUser: registerUserData => dispatch(registerUser(registerUserData)),
-    handleAuth: userAuthData => dispatch(handleAuth(userAuthData)),
-    login: () => dispatch(login())
+    handleAuth: userAuthData => dispatch(handleAuth(userAuthData))
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Form));
+export default connect(null, mapDispatchToProps)(withRouter(Form));

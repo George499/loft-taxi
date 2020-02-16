@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Paper,
   Grid,
@@ -14,8 +14,38 @@ import {
 import "./Profile.scss";
 import { makeStyles } from "@material-ui/core/styles";
 import { MCIcon } from "loft-taxi-mui-theme";
+import { connect } from "react-redux";
+import { creditCardSubmit } from "../../Redux/Actions/Actions";
 
-const Profile = () => {
+const Profile = props => {
+  const creditCardSubmit = props.creditCardSubmit;
+
+  const [cardNumber, setCardNumber] = useState(``);
+  const [expiryDate, setExpiryDate] = useState(``);
+  const [cardName, setCardName] = useState(``);
+  const [cvc, setCVC] = useState(``);
+
+  const creditCardData = { cardNumber, expiryDate, cardName, cvc };
+
+  const handleCardSubmit = e => {
+    e.preventDefault();
+    creditCardSubmit(creditCardData);
+  };
+
+  const handleCardNumberChange = e => {
+    setCardNumber(e.target.value);
+  };
+
+  const handleExpiryDateChange = e => {
+    setExpiryDate(e.target.value);
+  };
+  const handleCardNameChange = e => {
+    setCardName(e.target.value);
+  };
+  const handleCVCChange = e => {
+    setCVC(e.target.value);
+  };
+
   const useStyles = makeStyles({
     formRoot: {
       heigh: "40%"
@@ -86,7 +116,7 @@ const Profile = () => {
             >
               Способ оплаты
             </Typography>
-            <form>
+            <form onSubmit={handleCardSubmit}>
               <Grid container alignContent="center">
                 <Grid item xs={12}>
                   <Grid
@@ -104,8 +134,10 @@ const Profile = () => {
                               Номер карты
                             </InputLabel>
                             <Input
+                              onChange={handleCardNumberChange}
                               id="component-error"
                               placeholder="0000 0000 0000 0000"
+                              value={cardNumber}
                             />
                             <FormHelperText id="component-error-text">
                               Это обязательное поле
@@ -113,7 +145,12 @@ const Profile = () => {
                           </FormControl>
                           <FormControl fullWidth>
                             <InputLabel>Срок действия</InputLabel>
-                            <Input format="MM/yy" placeholder="02/20"></Input>
+                            <Input
+                              onChange={handleExpiryDateChange}
+                              value={expiryDate}
+                              format="MM/yy"
+                              placeholder="02/20"
+                            ></Input>
                             <FormLabel></FormLabel>
                           </FormControl>
                         </Box>
@@ -124,14 +161,22 @@ const Profile = () => {
                         <Box className={classes.payBox}>
                           <FormControl fullWidth>
                             <InputLabel>Имя владельца</InputLabel>
-                            <Input placeholder="USER NAME" />
+                            <Input
+                              onChange={handleCardNameChange}
+                              value={cardName}
+                              placeholder="USER NAME"
+                            />
                             <FormHelperText>
                               Это обязательное поле
                             </FormHelperText>
                           </FormControl>
                           <FormControl fullWidth>
                             <InputLabel>CVC</InputLabel>
-                            <Input placeholder="CVC"></Input>
+                            <Input
+                              onChange={handleCVCChange}
+                              value={cvc}
+                              placeholder="CVC"
+                            ></Input>
                             <FormHelperText>
                               Это обязательное поле
                             </FormHelperText>
@@ -160,4 +205,12 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+const mapDispatchToProps = dispatch => {
+  return {
+    creditCardSubmit: creditCardData => {
+      dispatch(creditCardSubmit(creditCardData));
+    }
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Profile);

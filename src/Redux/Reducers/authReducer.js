@@ -2,34 +2,32 @@ import {
   login,
   logout,
   registerUser,
-  handleAuth,
-  getProfileFetch
+  getProfileFetch,
+  creditCardSubmit,
+  creditCardGet
 } from "../Actions/Actions";
 
 const initialState = {
   isLoggedIn: false,
-  currentUser: {}
+  currentUser: {},
+  creditCardData: {}
 };
 
-const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case login.toString():
       return {
         ...state,
-        isLoggedIn: true
+        isLoggedIn: true,
+        currentUser: action.payload
       };
 
     case logout.toString():
+      localStorage.removeItem("token");
       return {
         ...state,
         isLoggedIn: false,
         currentUser: {}
-      };
-
-    case handleAuth.toString():
-      return {
-        ...state,
-        currentUser: action.payload
       };
 
     case registerUser.toString():
@@ -41,10 +39,18 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state
       };
+    case creditCardSubmit.toString():
+      return {
+        ...state,
+        creditCardData: action.payload
+      };
+    case creditCardGet.toString():
+      return {
+        ...state,
+        creditCardData: action.payload
+      };
 
     default:
       return state;
   }
 };
-
-export default authReducer;

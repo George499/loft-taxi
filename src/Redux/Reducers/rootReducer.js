@@ -1,6 +1,10 @@
 import { combineReducers } from "redux";
+import { profileReducer } from "../Reducers/profileReducer";
+import { authReducer } from "../Reducers/authReducer";
 
-import authReducer from "./authReducer";
-../Actions/getProfileFetch
-const rootReducer = combineReducers({ authReducer });
+const rootReducer = combineReducers({
+  authReducer: authReducer,
+  profileReducer: profileReducer
+});
+
 export default rootReducer;

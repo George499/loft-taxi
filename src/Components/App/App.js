@@ -1,53 +1,66 @@
-import React, {useState } from "react";
-import { useContextLogin } from '../Context/Context'
+import React, { useEffect } from "react";
 import Header from "../Header/Header";
 import "./App.scss";
-import Map from "../../Pages/Map/Map"
-import Profile from '../../Pages/Profile/Profile'
-import Login from '../../Pages/Login/Login'
+import Map from "../../Pages/Map/Map";
+import Profile from "../../Pages/Profile/Profile";
+import Login from "../../Pages/Login/Login";
+import { Redirect, Switch, Route } from "react-router-dom";
+import { connect } from "react-redux";
+import { getProfileFetch } from "../../Redux/Actions/Actions";
 
 const pages = [
-    {
-    name: 'profile',
-    text: 'Профиль'
-    },
-    {
-    name: 'map',
-    text: 'Карта'
-    },
-    {
-    name: 'login',
-    text: 'Выйти'
-    }
-]
+  {
+    name: "profile",
+    text: "Профиль"
+  },
+  {
+    name: "map",
+    text: "Карта"
+  },
+  {
+    name: "login",
+    text: "Выйти"
+  }
+];
 
-export default function App ()  { 
+function App(props) {
+  const isLoggedIn = props.isLoggedIn;
+  const getProfileFetch = props.getProfileFetch;
 
-    const {isLoggedIn} = useContextLogin()
-        
-    const [page, setPage] = useState(pages[2].name)    
+  useEffect(() => {
+    getProfileFetch();
+  });
 
-    const currentPage = (buttonName) => {
-    setPage( buttonName )
-    }
-
-    let Component = null;
-
-    if (page === pages[0].name){
-        Component = <Profile />;
-    } 
-    else if (page === pages[1].name){
-        Component = <Map />;
-    } else {
-        Component = <Login currentPage={currentPage}/>;
-    }
-
+  if (isLoggedIn) {
     return (
-<>
-    {isLoggedIn              
-    ?    <Header pages={pages} currentPage={currentPage}/>                
-    : null
-    }
-    {Component}   
-</>
-)}
+      <>
+        <Header pages={pages} />
+        <Switch>
+          <Redirect from="/login" to="/map" />
+          <Redirect exact from="/" to="/map" />
+          <Route path="/map" component={Map} />
+          <Route path="/profile" component={Profile} />
+        </Switch>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Route path="/login" component={Login} />
+        <Redirect exact from="/" to="/login" />
+      </>
+    );
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.isLoggedIn
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  getProfileFetch: () => dispatch(getProfileFetch())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

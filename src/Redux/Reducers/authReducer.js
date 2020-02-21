@@ -4,13 +4,20 @@ import {
   registerUser,
   getProfileFetch,
   creditCardSubmit,
-  creditCardGet
+  creditCardGet,
+  getAddressListRequest,
+  getAddressListFetch,
+  getCoordinatesRequest,
+  getCoordinatesSuccess
 } from "../Actions/Actions";
 
 const initialState = {
   isLoggedIn: false,
   currentUser: {},
-  creditCardData: {}
+  creditCardData: {},
+  addressList: [],
+  addressCoordinates: [],
+  routes: null
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -25,9 +32,7 @@ export const authReducer = (state = initialState, action) => {
     case logout.toString():
       localStorage.removeItem("token");
       return {
-        ...state,
-        isLoggedIn: false,
-        currentUser: {}
+        ...initialState
       };
 
     case registerUser.toString():
@@ -48,6 +53,27 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         creditCardData: action.payload
+      };
+
+    case getAddressListRequest.toString():
+      return {
+        ...state
+      };
+    case getAddressListFetch.toString():
+      return {
+        ...state,
+        addressList: action.payload
+      };
+
+    case getCoordinatesRequest.toString():
+      return {
+        ...state,
+        routes: action.payload
+      };
+    case getCoordinatesSuccess.toString():
+      return {
+        ...state,
+        addressCoordinates: action.payload
       };
 
     default:

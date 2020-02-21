@@ -16,9 +16,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import { MCIcon } from "loft-taxi-mui-theme";
 import { connect } from "react-redux";
 import { creditCardSubmit } from "../../Redux/Actions/Actions";
+import { withRouter } from "react-router-dom";
 
 const Profile = props => {
   const creditCardSubmit = props.creditCardSubmit;
+  const history = props.history;
 
   const [cardNumber, setCardNumber] = useState(``);
   const [expiryDate, setExpiryDate] = useState(``);
@@ -29,6 +31,7 @@ const Profile = props => {
 
   const handleCardSubmit = e => {
     e.preventDefault();
+    history.push("/map");
     creditCardSubmit(creditCardData);
   };
 
@@ -213,4 +216,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(Profile);
+export default connect(null, mapDispatchToProps)(withRouter(Profile));

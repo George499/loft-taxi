@@ -1,13 +1,23 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Map.scss";
+import Select from "react-select";
 import mapboxgl from "mapbox-gl";
-import { Paper, Grid, FormControl, TextField, Button } from "@material-ui/core";
+import { Paper, Grid, Form, FormControl, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import newAddressList from "../../Components/PrivateRoute/index";
+import {
+  getCoordinatesRequest,
+  getAddressListRequest
+} from "../../Redux/Actions/Actions";
+import { connect } from "react-redux";
 
-const Map = () => {
+const Map = props => {
+  const { adressList, getAddressListRequest, getCoordinatesRequest } = props;
+
   let mapRef = useRef(null);
 
   useEffect(() => {
+    getAddressListRequest();
     const map = new mapboxgl.Map({
       accessToken:
         "pk.eyJ1IjoiZ2VvcmdlaXNhZXYiLCJhIjoiY2s1ejZtM2ppMDZ2NTNncWpjcmgyMnR5NSJ9.fxa6wtBm8oLF6UNVsQeJMQ",
@@ -20,7 +30,7 @@ const Map = () => {
     return () => {
       map.remove();
     };
-  });
+  }, [getAddressListRequest]);
 
   const useStyles = makeStyles({
     mapModal: {
@@ -38,45 +48,83 @@ const Map = () => {
       padding: "0"
     }
   });
+  const fetchedAdressess = newAddressList(adressList);
+  const [address1, changeAddress1] = useState("Город");
+  const [address2, changeAddress2] = useState("Город");
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    let addressRouts = {
+      address1: address1.value,
+      address2: address2.value
+    };
+    getCoordinatesRequest(addressRouts);
+  };
 
   const classes = useStyles();
 
   return (
     <div style={{ position: "relative", zIndex: "-10" }}>
       <div ref={mapRef} className="map-wrapper"></div>
-      <Paper className={classes.mapModal} elevation={1}>
-        <Grid container>
-          <Grid item xs={12} style={{ marginBottom: "30px" }}>
-            <FormControl fullWidth>
-              <TextField
-                className={classes.modalInput}
+      <form onSubmit={handleSubmit}>
+        <Paper className={classes.mapModal} elevation={1}>
+          <Grid container>
+            <Grid item xs={12} style={{ marginBottom: "30px" }}>
+              <FormControl fullWidth>
+                <label className={classes.modalInput}>Откуда</label>
+                <Select
+                  value={address1}
+                  placeholder="Выбрать маршрут..."
+                  onChange={changeAddress1}
+                  className="basic-single"
+                  classNamePrefix="select"
+                  options={fetchedAdressess}
+                  isClearable
+                  isSearchable
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} style={{ marginBottom: "30px" }}>
+              <FormControl fullWidth>
+                <label className={classes.modalInput}>Куда</label>
+                <Select
+                  value={address2}
+                  placeholder="Выбрать маршрут..."
+                  onChange={changeAddress2}
+                  className="basic-single"
+                  classNamePrefix="select"
+                  options={fetchedAdressess}
+                  isClearable
+                  isSearchable
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                type="submit"
                 fullWidth
-                style={{ margin: 8 }}
-                placeholder="Откуда"
-                margin="normal"
-              />
-            </FormControl>
+                variant="contained"
+                color="primary"
+              >
+                Вызвать такси
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={12} style={{ marginBottom: "30px" }}>
-            <FormControl fullWidth>
-              <TextField
-                className={classes.modalInput}
-                style={{ margin: 8 }}
-                placeholder="Куда"
-                fullWidth
-                margin="normal"
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <Button fullWidth variant="contained" color="primary">
-              Вызвать такси
-            </Button>
-          </Grid>
-        </Grid>
-      </Paper>
+        </Paper>
+      </form>
     </div>
   );
 };
 
-export default Map;
+const mapStateToProps = state => {
+  return { adressList: state.addressList };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getAddressListRequest: () => dispatch(getAddressListRequest()),
+    getCoordinatesRequest: () => dispatch(getCoordinatesRequest())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Map);

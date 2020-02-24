@@ -1,36 +1,39 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo
+} from "react";
 import "./Map.scss";
 import Select from "react-select";
 import mapboxgl from "mapbox-gl";
-import { Paper, Grid, Form, FormControl, Button } from "@material-ui/core";
+import { Paper, Grid, FormControl, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import newAddressList from "../../Components/PrivateRoute/index";
+import PropTypes from "prop-types";
 import {
   getCoordinatesRequest,
-  getAddressListRequest
+  getAddressListRequest,
+  getChosenAdress,
+  clearRoutes
 } from "../../Redux/Actions/Actions";
 import { connect } from "react-redux";
 
 const Map = props => {
-  const { adressList, getAddressListRequest, getCoordinatesRequest } = props;
+  const {
+    adressList,
+    getAddressListRequest,
+    getCoordinatesRequest,
+    getChosenAdress,
+    orderCoords,
+    clearRoutes
+  } = props;
 
-  let mapRef = useRef(null);
-
-  useEffect(() => {
-    getAddressListRequest();
-    const map = new mapboxgl.Map({
-      accessToken:
-        "pk.eyJ1IjoiZ2VvcmdlaXNhZXYiLCJhIjoiY2s1ejZtM2ppMDZ2NTNncWpjcmgyMnR5NSJ9.fxa6wtBm8oLF6UNVsQeJMQ",
-      container: mapRef.current,
-      center: [37.6174943, 55.7504461],
-      zoom: 10,
-      style: "mapbox://styles/georgeisaev/ck5z7ctu17adp1inwpu37v147",
-      dragRotate: false
-    });
-    return () => {
-      map.remove();
-    };
-  }, [getAddressListRequest]);
+  Map.propTypes = {
+    orderCoords: PropTypes.array,
+    adressList: PropTypes.array
+  };
 
   const useStyles = makeStyles({
     mapModal: {
@@ -51,6 +54,80 @@ const Map = props => {
   const fetchedAdressess = newAddressList(adressList);
   const [address1, changeAddress1] = useState("Город");
   const [address2, changeAddress2] = useState("Город");
+  const [mapState] = useState({
+    lng: 30.27,
+    lat: 60,
+    zoom: 12,
+    accessToken:
+      "pk.eyJ1IjoiZ2VvcmdlaXNhZXYiLCJhIjoiY2s1ejZtM2ppMDZ2NTNncWpjcmgyMnR5NSJ9.fxa6wtBm8oLF6UNVsQeJMQ",
+    style: "mapbox://styles/georgeisaev/ck5z7ctu17adp1inwpu37v147"
+  });
+
+  const coords = useMemo(() => {
+    return orderCoords;
+  }, [orderCoords]);
+
+  let mapRef = useRef(null);
+  const [map, setMap] = useState(null);
+  const renderRoute = useCallback(() => {
+    if (map) {
+      map.addLayer({
+        id: "route",
+        type: "line",
+        source: {
+          type: "geojson",
+          data: {
+            type: "Feature",
+            properties: {
+              color: "#F7455D"
+            },
+            geometry: {
+              type: "LineString",
+              coordinates: coords
+            }
+          }
+        },
+        paint: {
+          "line-width": 8,
+          "line-color": ["get", "color"]
+        }
+      });
+      map.flyTo({
+        center: coords[0]
+      });
+    }
+  }, [map, coords]);
+
+  useEffect(() => {
+    getAddressListRequest();
+    const initializeMap = ({ setMap, mapRef }) => {
+      const map = new mapboxgl.Map({
+        container: mapRef.current,
+        center: [mapState.lng, mapState.lat],
+        zoom: mapState.zoom,
+        accessToken: mapState.accessToken,
+        style: mapState.style
+      });
+      map.on("load", () => {
+        setMap(map);
+        map.resize();
+      });
+    };
+
+    if (!map) initializeMap({ setMap, mapRef });
+  }, [map, mapState, getAddressListRequest]);
+
+  useEffect(() => {
+    if (!coords && map && map.getLayer("route")) {
+      map.removeLayer("route");
+      map.removeSource("route");
+    }
+    if (coords && coords.length > 0) {
+      renderRoute();
+    }
+    if (coords.length > 0) clearRoutes();
+    return () => {};
+  }, [coords, map, renderRoute, clearRoutes]);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -58,6 +135,7 @@ const Map = props => {
       address1: address1.value,
       address2: address2.value
     };
+    getChosenAdress(addressRouts);
     getCoordinatesRequest(addressRouts);
   };
 
@@ -117,13 +195,18 @@ const Map = props => {
 };
 
 const mapStateToProps = state => {
-  return { adressList: state.addressList };
+  return {
+    orderCoords: state.addressCoordinates,
+    adressList: state.addressList
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     getAddressListRequest: () => dispatch(getAddressListRequest()),
-    getCoordinatesRequest: () => dispatch(getCoordinatesRequest())
+    getCoordinatesRequest: () => dispatch(getCoordinatesRequest()),
+    getChosenAdress: addressRouts => dispatch(getChosenAdress(addressRouts)),
+    clearRoutes: () => dispatch(clearRoutes())
   };
 };
 

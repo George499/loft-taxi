@@ -1,6 +1,6 @@
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import { loadState, saveState } from "../../localStorage";
-// import loggerMiddleware from "../Middlewares/middleware";
 import authSaga from "../Sagas/rootSaga";
 import { authReducer } from "../Reducers/authReducer";
 import createSagaMiddleware from "redux-saga";
@@ -8,13 +8,11 @@ import createSagaMiddleware from "redux-saga";
 const sagaMiddleware = createSagaMiddleware();
 
 const persistedState = loadState();
+
 const getStore = createStore(
   authReducer,
   persistedState,
-  compose(
-    applyMiddleware(sagaMiddleware),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
+  composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
 
 getStore.subscribe(() => {

@@ -1,7 +1,7 @@
-export default function newAddressList(adressList) {
-  const objAddressesList = [];
-  for (let [, value] of Object.entries({ ...adressList })) {
-    objAddressesList.push({ value: value, label: value });
+export default function newAddressList(list) {
+  const adressArray = [];
+  for (let [, value] of Object.entries({ ...list })) {
+    adressArray.push({ value: value, label: value });
   }
-  return objAddressesList;
+  return adressArray;
 }

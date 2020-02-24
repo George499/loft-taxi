@@ -1,4 +1,4 @@
-import { take, takeEvery, put, call, fork, select } from "redux-saga/effects";
+import { takeEvery, put, call, fork, select } from "redux-saga/effects";
 import { apiFetch } from "../../apiFetch";
 import {
   registerUser,
@@ -119,30 +119,20 @@ function* addressList() {
   yield takeEvery(getAddressListRequest.toString(), handleAddressList);
 }
 
-function* handleGetCoordinates(selectAddressList) {
-  const adressList = yield call(apiFetch, {
-    url: "route",
-    method: "GET",
-    params: {
-      address1: selectAddressList.routesAddress.address1,
-      address2: selectAddressList.routesAddress.address2
-    }
+function* handleGetCoordinates() {
+  const state = yield select();
+  const { address1, address2 } = state.routes;
+  const coordinates = yield call(apiFetch, {
+    url: `route?address1=${address1}&address2=${address2}`,
+    method: "GET"
   });
-  yield put(getAddressListFetch(adressList.addresses));
+
+  yield put(getCoordinatesSuccess(coordinates));
 }
 
 function* getCoordinates() {
   yield takeEvery(getCoordinatesRequest.toString(), handleGetCoordinates);
 }
-
-//   {
-//     console.log(state);
-//     // const addressList = state => state.routes;
-//     // const selectAddressList = yield select(addressList);
-//     // const result = yield call(handleGetCoordinates, selectAddressList);
-//     // yield put(getCoordinatesSuccess(result));
-//   });
-// }
 
 export default function*() {
   yield fork(authSaga);

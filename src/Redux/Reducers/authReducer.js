@@ -8,7 +8,9 @@ import {
   getAddressListRequest,
   getAddressListFetch,
   getCoordinatesRequest,
-  getCoordinatesSuccess
+  getCoordinatesSuccess,
+  getChosenAdress,
+  clearRoutes
 } from "../Actions/Actions";
 
 const initialState = {
@@ -65,15 +67,24 @@ export const authReducer = (state = initialState, action) => {
         addressList: action.payload
       };
 
-    case getCoordinatesRequest.toString():
+    case getChosenAdress.toString():
       return {
         ...state,
         routes: action.payload
+      };
+    case getCoordinatesRequest.toString():
+      return {
+        ...state
       };
     case getCoordinatesSuccess.toString():
       return {
         ...state,
         addressCoordinates: action.payload
+      };
+    case clearRoutes.toString():
+      return {
+        ...state,
+        addressCoordinates: []
       };
 
     default:

@@ -21,7 +21,7 @@ const initialState = {
   addressCoordinates: [],
   routes: null
 };
-
+// AUTH
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case login.toString():
@@ -46,6 +46,7 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state
       };
+    // Profile
     case creditCardSubmit.toString():
       return {
         ...state,
@@ -57,6 +58,7 @@ export const authReducer = (state = initialState, action) => {
         creditCardData: action.payload
       };
 
+    // Routes
     case getAddressListRequest.toString():
       return {
         ...state

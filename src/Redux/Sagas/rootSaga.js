@@ -1,5 +1,5 @@
 import { takeEvery, put, call, fork, select } from "redux-saga/effects";
-import { apiFetch } from "../../apiFetch";
+import { apiFetch } from "../Middlewares/apiFetch";
 import {
   registerUser,
   handleAuth,

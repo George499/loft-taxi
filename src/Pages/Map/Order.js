@@ -3,7 +3,7 @@ import "./Map.scss";
 import Select from "react-select";
 import { Paper, Grid, FormControl, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import newAddressList from "../../Components/PrivateRoute/index";
+import newAddressList from "../../Components/Adresses/index";
 import PropTypes from "prop-types";
 import {
   getCoordinatesRequest,

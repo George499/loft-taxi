@@ -37,8 +37,16 @@ const Order = props => {
     }
   });
   const fetchedAdressess = newAddressList(adressList);
-  const [address1, changeAddress1] = useState("Город");
-  const [address2, changeAddress2] = useState("Город");
+
+  const [address1, changeAddress1] = useState(false);
+  const [address2, changeAddress2] = useState(false);
+
+  // const onChange1 = fetchedAdressess.map(address =>
+  //   if (address2 === address) changeAddress1(address2)
+  // );
+  // const onChange2 = fetchedAdressess.map(address =>
+  //   address1 === address ? changeAddress2(address1) : address
+  // );
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -62,7 +70,7 @@ const Order = props => {
               <Select
                 value={address1}
                 placeholder="Выбрать маршрут..."
-                onChange={changeAddress1}
+                // onChange={onChange1}
                 className="basic-single"
                 classNamePrefix="select"
                 options={fetchedAdressess}
@@ -77,7 +85,7 @@ const Order = props => {
               <Select
                 value={address2}
                 placeholder="Выбрать маршрут..."
-                onChange={changeAddress2}
+                // onChange={onChange2}
                 className="basic-single"
                 classNamePrefix="select"
                 options={fetchedAdressess}

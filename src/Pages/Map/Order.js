@@ -38,24 +38,25 @@ const Order = props => {
   });
   const fetchedAdressess = newAddressList(adressList);
 
-  const [address1, changeAddress1] = useState(false);
-  const [address2, changeAddress2] = useState(false);
-
-  // const onChange1 = fetchedAdressess.map(address =>
-  //   if (address2 === address) changeAddress1(address2)
-  // );
-  // const onChange2 = fetchedAdressess.map(address =>
-  //   address1 === address ? changeAddress2(address1) : address
-  // );
+  const [address1, changeAddress1] = useState("Город");
+  const [address2, changeAddress2] = useState("Город");
 
   const handleSubmit = e => {
     e.preventDefault();
-    let addressRouts = {
-      address1: address1.value,
-      address2: address2.value
-    };
-    getChosenAdress(addressRouts);
-    getCoordinatesRequest(addressRouts);
+    if (address1 && address2) {
+      const addressRouts = {
+        address1: address1.value,
+        address2: address2.value
+      };
+      getChosenAdress(addressRouts);
+      getCoordinatesRequest(addressRouts);
+    } else {
+      fetchedAdressess.forEach(address => {
+        changeAddress1(address.value);
+        changeAddress2(address.value);
+      });
+      alert("Выберите маршрут");
+    }
   };
 
   const classes = useStyles();
@@ -70,10 +71,16 @@ const Order = props => {
               <Select
                 value={address1}
                 placeholder="Выбрать маршрут..."
-                // onChange={onChange1}
+                onChange={changeAddress1}
                 className="basic-single"
                 classNamePrefix="select"
-                options={fetchedAdressess}
+                options={
+                  address2
+                    ? fetchedAdressess.filter(
+                        address => address.value !== address2.value
+                      )
+                    : fetchedAdressess
+                }
                 isClearable
                 isSearchable
               />
@@ -85,10 +92,16 @@ const Order = props => {
               <Select
                 value={address2}
                 placeholder="Выбрать маршрут..."
-                // onChange={onChange2}
+                onChange={changeAddress2}
                 className="basic-single"
                 classNamePrefix="select"
-                options={fetchedAdressess}
+                options={
+                  address1
+                    ? fetchedAdressess.filter(
+                        address => address.value !== address1.value
+                      )
+                    : fetchedAdressess
+                }
                 isClearable
                 isSearchable
               />

@@ -59,15 +59,22 @@ class Map extends Component {
   }
   componentDidUpdate(prevProps) {
     if (prevProps !== this.props) {
-      const { orderCoords } = this.props;
+      const { orderCoords, creditCardSubmitted } = this.props;
 
       if (this.map.getLayer("route")) {
         this.map.removeLayer("route");
         this.map.removeSource("route");
       }
 
-      if (orderCoords && orderCoords.length > 0) {
+      if (orderCoords && orderCoords.length > 0 && creditCardSubmitted) {
         this.renderRoute();
+      } else {
+        if (!orderCoords) {
+          alert("Выберите маршрут");
+        }
+        if (!creditCardSubmitted) {
+          alert("Введите данные кредитной карты");
+        }
       }
     }
   }
@@ -82,8 +89,8 @@ class Map extends Component {
 }
 const mapStateToProps = state => {
   return {
-    orderCoords: state.addressCoordinates,
-    adressList: state.addressList
+    creditCardSubmitted: state.creditCardSubmitted,
+    orderCoords: state.addressCoordinates
   };
 };
 

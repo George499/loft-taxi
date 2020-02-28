@@ -5,6 +5,7 @@ import {
   getProfileFetch,
   creditCardSubmit,
   creditCardGet,
+  cardSubmitSuccess,
   getAddressListRequest,
   getAddressListFetch,
   getCoordinatesRequest,
@@ -19,7 +20,8 @@ const initialState = {
   creditCardData: {},
   addressList: [],
   addressCoordinates: [],
-  routes: null
+  routes: null,
+  creditCardSubmitted: false
 };
 // AUTH
 export const authReducer = (state = initialState, action) => {
@@ -56,6 +58,11 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         creditCardData: action.payload
+      };
+    case cardSubmitSuccess.toString():
+      return {
+        ...state,
+        creditCardSubmitted: true
       };
 
     // Routes

@@ -1,5 +1,5 @@
 import { apiFetch } from "../Middlewares/apiFetch";
-import { login, creditCardSubmit } from "../Actions/Actions";
+import { login, creditCardSubmit, cardSubmitSuccess } from "../Actions/Actions";
 import { takeEvery, call, put } from "redux-saga/effects";
 
 function* handleCreditCard(action) {
@@ -13,6 +13,7 @@ function* handleCreditCard(action) {
   if (response.success) {
     alert("Данные карты сохранены");
     yield put(login());
+    yield put(cardSubmitSuccess());
   } else {
     alert(response.error);
   }

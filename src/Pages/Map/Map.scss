@@ -1,9 +1,23 @@
 .map-wrapper {
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    width: 100%;
-    height: 880px
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  height: 880px;
+}
+.mapModal {
+  max-width: 20%;
+  padding: 44px 60px;
+  margin-top: 48px;
+  margin-bottom: 48px;
+  left: 20px;
+  position: absolute;
+  top: 0;
+}
+.modalInput {
+  height: auto;
+  display: flex;
+  padding: 0;
 }

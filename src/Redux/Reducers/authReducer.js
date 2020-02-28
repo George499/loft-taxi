@@ -4,15 +4,26 @@ import {
   registerUser,
   getProfileFetch,
   creditCardSubmit,
-  creditCardGet
+  creditCardGet,
+  cardSubmitSuccess,
+  getAddressListRequest,
+  getAddressListFetch,
+  getCoordinatesRequest,
+  getCoordinatesSuccess,
+  getChosenAdress,
+  clearRoutes
 } from "../Actions/Actions";
 
 const initialState = {
   isLoggedIn: false,
   currentUser: {},
-  creditCardData: {}
+  creditCardData: {},
+  addressList: [],
+  addressCoordinates: [],
+  routes: null,
+  creditCardSubmitted: false
 };
-
+// AUTH
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case login.toString():
@@ -25,9 +36,7 @@ export const authReducer = (state = initialState, action) => {
     case logout.toString():
       localStorage.removeItem("token");
       return {
-        ...state,
-        isLoggedIn: false,
-        currentUser: {}
+        ...initialState
       };
 
     case registerUser.toString():
@@ -39,6 +48,7 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state
       };
+    // Profile
     case creditCardSubmit.toString():
       return {
         ...state,
@@ -48,6 +58,42 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         creditCardData: action.payload
+      };
+    case cardSubmitSuccess.toString():
+      return {
+        ...state,
+        creditCardSubmitted: true
+      };
+
+    // Routes
+    case getAddressListRequest.toString():
+      return {
+        ...state
+      };
+    case getAddressListFetch.toString():
+      return {
+        ...state,
+        addressList: action.payload
+      };
+
+    case getChosenAdress.toString():
+      return {
+        ...state,
+        routes: action.payload
+      };
+    case getCoordinatesRequest.toString():
+      return {
+        ...state
+      };
+    case getCoordinatesSuccess.toString():
+      return {
+        ...state,
+        addressCoordinates: action.payload
+      };
+    case clearRoutes.toString():
+      return {
+        ...state,
+        addressCoordinates: []
       };
 
     default:

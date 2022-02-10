@@ -13,7 +13,7 @@
     "fetch-defaults": "^1.0.0",
     "loft-taxi-mui-theme": "^1.1.0",
     "material-ui": "^0.20.2",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "prop-types": "^15.7.2",
     "radium": "^0.26.0",
     "react": "^16.12.0",
